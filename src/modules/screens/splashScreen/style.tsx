@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-const {height, width} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   container: {},
   backgroundImg: {
@@ -18,8 +18,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     top: 82,
     left: -87,
-    position: 'absolute'
-
+    position: 'absolute',
   },
 
   imgBorder: {
@@ -27,8 +26,5 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'contain',
   },
- 
- 
-  
 });
 export default styles;

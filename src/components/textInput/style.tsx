@@ -1,7 +1,10 @@
 import { StyleSheet, Dimensions } from "react-native";
 import COLORS from "../../utils/colors";
+import STRINGS from "../../utils/strings";
 
-const {height, width} = Dimensions.get('screen');
+const {FONT} = STRINGS;
+
+const {width} = Dimensions.get('screen');
 
 
 const styles = StyleSheet.create({
@@ -11,7 +14,7 @@ const styles = StyleSheet.create({
         width: width*0.90,
         borderColor: COLORS.WHITE,
         marginVertical: 7,
-        fontFamily: 'helvetica',
+        fontFamily: FONT.HELVETICA,
         fontSize: 16,
         fontWeight: '600',
     },

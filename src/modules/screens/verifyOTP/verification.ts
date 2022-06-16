@@ -8,14 +8,12 @@ export default async function verification(
   phoneNo: string,
 ) {
   console.log(userId, otp, countryCode, phoneNo);
-   const res =  await axios
-    .post(`${API_URL.BASE_URL}${API_URL.VERIFY_OTP}`, {
-      userId,
-      otp,
-      countryCode,
-      phoneNo,
-    })
+  const res = await axios.post(`${API_URL.BASE_URL}${API_URL.VERIFY_OTP}`, {
+    userId,
+    otp,
+    countryCode,
+    phoneNo,
+  });
 
-    return res;
-  
+  return res;
 }

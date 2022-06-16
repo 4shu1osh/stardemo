@@ -1,27 +1,32 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import COLORS from '../../../utils/colors';
-const {width, height} = Dimensions.get('window');
+import STRINGS from '../../../utils/strings';
+
+const {FONT} = STRINGS;
+
+const {width} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
   },
   headerView: {
-    backgroundColor: 'black',
+    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
   },
   heading: {
-    color: '#fff',
+    color: COLORS.WHITE,
     fontSize: 28,
     fontWeight: '900',
     fontStyle: 'italic',
     lineHeight: 40,
   },
   forgotPassword: {
-    color: '#44C2E3',
+    color: COLORS.BLUE,
     fontSize: 16,
-    fontFamily: 'Helvetica',
+    fontFamily: FONT.HELVETICA,
     alignSelf: 'flex-end',
   },
   button: {
@@ -36,17 +41,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontStyle: 'italic',
     fontWeight: '900',
-    color: '#606060',
+    color: COLORS.GREY,
   },
   line: {
     width: width * 0.4,
     height: 1,
-    backgroundColor: '#606060',
+    backgroundColor: COLORS.GREY,
   },
   or: {
-    color: '#606060',
+    color: COLORS.GREY,
     fontSize: 14,
-    fontFamily: 'Helvetica',
+    fontFamily: FONT.HELVETICA,
   },
   rowView: {
     flexDirection: 'row',
@@ -61,10 +66,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   text: {
-    color: '#fff',
+    color: COLORS.WHITE,
     fontSize: 20,
     fontWeight: '500',
-    fontFamily: 'helvetica',
+    fontFamily: FONT.HELVETICA,
   },
   eye: {
     height: 50,
@@ -95,10 +100,10 @@ const styles = StyleSheet.create({
     height: 18,
   },
   backButton: {
-      height: 20,
-      width: 20,
-      resizeMode: 'contain',
-      marginBottom: 20
-  }
+    height: 20,
+    width: 20,
+    resizeMode: 'contain',
+    marginBottom: 20,
+  },
 });
 export default styles;

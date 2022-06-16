@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import CustomTextInput from '../../../components/textInput';
 import styles from './style';
@@ -20,21 +14,10 @@ import {useDispatch} from 'react-redux';
 import signUpAction from './action';
 import LOCAL_IMAGES from '../../../utils/localImages';
 import ROUTE_NAMES from '../../../routes/routeNames';
+import STRINGS from '../../../utils/strings';
+import validatioSchema from '../../../utils/validationSchema';
 
-const validationSchema = Yup.object({
-  name: Yup.string()
-    .trim()
-    .min(3, 'Name should be min of 3 characters')
-    .required('Name is required!'),
-  phoneNo: Yup.number()
-    .min(1000000000, 'Mobile number must contain 10 digits.')
-    .max(9999999999, 'Mobile number must contain 10 digits.')
-    .required('Mobile number is required!'),
-  email: Yup.string()
-    .email('Please enter a valid email')
-    .required('Email is required!'),
-  password: Yup.string().trim().min(1, '').required('Password is required!'),
-});
+const {COMMON, LABEL} = STRINGS;
 
 const userInfo = {
   email: '',
@@ -50,15 +33,11 @@ export default function SignUp() {
 
   const [hidePass, setHidePass] = React.useState(true);
   const [isSelected, setSelection] = React.useState(false);
-  
+
   const eyeButton = () => (
     <TouchableImage
       onPress={() => setHidePass(!hidePass)}
-      source={
-        hidePass
-          ? LOCAL_IMAGES.CLOSED_EYE
-          : LOCAL_IMAGES.OPEN_EYE
-      }
+      source={hidePass ? LOCAL_IMAGES.CLOSED_EYE : LOCAL_IMAGES.OPEN_EYE}
       style={styles.eye}
     />
   );
@@ -67,20 +46,17 @@ export default function SignUp() {
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
       <View style={styles.headerView}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={LOCAL_IMAGES.BACK_BUTTON}
-            style={styles.backButton}
-          />
+          <Image source={LOCAL_IMAGES.BACK_BUTTON} style={styles.backButton} />
         </TouchableOpacity>
 
-        <Text style={styles.heading}>{'Create Account'}</Text>
-        <Text style={styles.signUpText}>{'Sign Up to get started'}</Text>
+        <Text style={styles.heading}>{COMMON.CREATE_ACCOUNT}</Text>
+        <Text style={styles.signUpText}>{COMMON.SIGN_UP_HEADING}</Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <View style={styles.container}>
           <Formik
             initialValues={userInfo}
-            validationSchema={validationSchema}
+            validationSchema={validatioSchema}
             onSubmit={values => console.log(values)}>
             {({errors, touched, handleChange, handleBlur, values}) => {
               const {name, email, password, countryCode, phoneNo} = values;
@@ -88,7 +64,7 @@ export default function SignUp() {
                 <>
                   <CustomTextInput
                     value={name}
-                    label={'Full Name*'}
+                    label={`${LABEL.FULL_NAME}*`}
                     onBlur={handleBlur('name')}
                     onChangeText={handleChange('name')}
                     error={touched.name && errors.name}
@@ -96,14 +72,14 @@ export default function SignUp() {
 
                   <CustomTextInput
                     value={countryCode}
-                    label={'Country Code*'}
+                    label={`${LABEL.COUNTRY_CODE}*`}
                     onBlur={handleBlur('countryCode')}
                     onChangeText={handleChange('countryCode')}
                   />
 
                   <CustomTextInput
                     value={phoneNo}
-                    label={'Phone Number*'}
+                    label={`${LABEL.PHONE_NUMBER}*`}
                     onBlur={handleBlur('phoneNo')}
                     onChangeText={handleChange('phoneNo')}
                     error={touched.phoneNo && errors.phoneNo}
@@ -111,7 +87,7 @@ export default function SignUp() {
                   <CustomTextInput
                     value={email}
                     error={touched.email && errors.email}
-                    label={'Email*'}
+                    label={`${LABEL.EMAIL}*`}
                     onBlur={handleBlur('email')}
                     onChangeText={handleChange('email')}
                   />
@@ -119,7 +95,7 @@ export default function SignUp() {
                     value={password}
                     rightComponent={eyeButton}
                     error={touched.password && errors.password}
-                    label={'Password*'}
+                    label={`${LABEL.PASSWORD}*`}
                     secureTextEntry={hidePass}
                     onBlur={handleBlur('password')}
                     onChangeText={handleChange('password')}
@@ -131,18 +107,18 @@ export default function SignUp() {
                       boxType={'square'}
                       onFillColor={COLORS.BLUE}
                       lineWidth={2}
-                      onCheckColor={'black'}
+                      onCheckColor={COLORS.BLACK}
                       animationDuration={0.2}
                       style={styles.checkBox}
                       onTintColor={COLORS.BLUE}
                     />
-                    <Text style={styles.terms}>I agree to the </Text>
+                    <Text style={styles.terms}>{'I agree to the'} </Text>
                     <Text
                       style={[
                         styles.terms,
                         {color: COLORS.BLUE, fontWeight: '700'},
                       ]}>
-                      Terms of Use*{' '}
+                      {'Terms of Use* '}
                     </Text>
                   </View>
                   {Object.keys(errors).length ||
@@ -150,7 +126,7 @@ export default function SignUp() {
                   !isSelected ? (
                     <CustomButton
                       disabled={true}
-                      label={'CREATE ACCOUNT'}
+                      label={COMMON.CREATE_ACCOUNT.toUpperCase()}
                       style={styles.button}
                       labelStyle={styles.label}
                       backgroundColor={COLORS.DARK_GREY}
@@ -159,10 +135,11 @@ export default function SignUp() {
                     <CustomButton
                       disabled={false}
                       onPress={() => {
+                        //@ts-ignore
                         dispatch(signUpAction(values));
                         navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN);
                       }}
-                      label={'CREATE ACCOUNT'}
+                      label={COMMON.CREATE_ACCOUNT.toUpperCase()}
                       style={styles.button}
                       labelStyle={[styles.label, {color: COLORS.BLACK}]}
                       backgroundColor={COLORS.BLUE}
@@ -187,11 +164,11 @@ export default function SignUp() {
             style={styles.socialBtn}
           />
           <View style={styles.rowView}>
-            <Text style={styles.text}>{'Already a user? '}</Text>
+            <Text style={styles.text}>{`${COMMON.ALREADY_HAVE_ACCOUNT} `}</Text>
             <Text
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.navigate(ROUTE_NAMES.LOGIN_SCREEN)}
               style={[styles.heading, {color: COLORS.BLUE, fontSize: 20}]}>
-              {'Sign In'}
+              {STRINGS.LABEL.SIGN_IN}
             </Text>
           </View>
         </View>

@@ -5,7 +5,6 @@ import {useNavigation} from '@react-navigation/native';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import LOCAL_IMAGES from '../../../utils/localImages';
 
-
 export default function SplashScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -25,7 +24,7 @@ export default function SplashScreen() {
       navigation.navigate(ROUTE_NAMES.SIGN_UP_SCREEN);
     }, 3000);
   }, []);
-  
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -37,19 +36,10 @@ export default function SplashScreen() {
               opacity: fadeAnim,
             },
           ]}>
-          <Image
-            source={LOCAL_IMAGES.STAR}
-            style={styles.starLogo}
-          />
+          <Image source={LOCAL_IMAGES.STAR} style={styles.starLogo} />
         </Animated.View>
-        <Image
-          source={LOCAL_IMAGES.FIVE_LOGO}
-          style={styles.fiveLogo}
-        />
-        <Image
-          source={LOCAL_IMAGES.BORDER}
-          style={styles.imgBorder}
-        />
+        <Image source={LOCAL_IMAGES.FIVE_LOGO} style={styles.fiveLogo} />
+        <Image source={LOCAL_IMAGES.BORDER} style={styles.imgBorder} />
       </ImageBackground>
     </View>
   );

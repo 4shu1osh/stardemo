@@ -9,15 +9,12 @@ import {Formik} from 'formik';
 import TouchableImage from '../../../components/touchableImage';
 import COLORS from '../../../utils/colors';
 import {useNavigation} from '@react-navigation/native';
-
 import LOCAL_IMAGES from '../../../utils/localImages';
+import STRINGS from '../../../utils/strings';
+import ROUTE_NAMES from '../../../routes/routeNames';
+import validatioSchema from '../../../utils/validationSchema';
 
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .email('Please enter a valid email')
-    .required('Email is required!'),
-  password: Yup.string().trim().min(1, '').required('Password is required!'),
-});
+const {COMMON, LABEL} = STRINGS;
 
 const userInfo = {
   email: '',
@@ -30,51 +27,46 @@ export default function Login() {
   const eyeButton = () => (
     <TouchableImage
       onPress={() => setHidePass(!hidePass)}
-      source={
-        hidePass
-          ? LOCAL_IMAGES.CLOSED_EYE
-          : LOCAL_IMAGES.OPEN_EYE
-      }
+      source={hidePass ? LOCAL_IMAGES.CLOSED_EYE : LOCAL_IMAGES.OPEN_EYE}
       style={styles.eye}
     />
   );
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
-     
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <View style={styles.container}>
-          <Text style={styles.heading}>
-            {'Sign In Using Your Mobile Number / Email'}
-          </Text>
+          <Text style={styles.heading}>{COMMON.SIGN_IN_HEADING}</Text>
 
           <Formik
             initialValues={userInfo}
-            validationSchema={validationSchema}
+            validationSchema={validatioSchema}
             onSubmit={values => console.log(values)}>
             {({errors, touched, handleChange, handleBlur, values}) => {
               return (
                 <React.Fragment>
                   <CustomTextInput
                     error={touched.email && errors.email}
-                    label={'Email'}
+                    label={LABEL.EMAIL}
                     onBlur={handleBlur('email')}
                     onChangeText={handleChange('email')}
                   />
                   <CustomTextInput
                     rightComponent={eyeButton}
                     error={touched.password && errors.password}
-                    label={'Password'}
+                    label={LABEL.PASSWORD}
                     secureTextEntry={hidePass}
                     onBlur={handleBlur('password')}
                     onChangeText={handleChange('password')}
                   />
 
-                  <Text style={styles.forgotPassword}>{'Forgot Password?'}</Text>
+                  <Text style={styles.forgotPassword}>
+                    {COMMON.FORGOT_PASSWORD}
+                  </Text>
                   {Object.keys(errors).length || values.email.length == 0 ? (
                     <CustomButton
                       disabled={true}
-                      label={'SIGN IN'}
+                      label={LABEL.SIGN_IN.toUpperCase()}
                       style={styles.button}
                       labelStyle={styles.label}
                       backgroundColor={COLORS.DARK_GREY}
@@ -83,7 +75,7 @@ export default function Login() {
                     <CustomButton
                       disabled={false}
                       onPress={() => Alert.alert('signed in')}
-                      label={'SIGN IN'}
+                      label={LABEL.SIGN_IN.toUpperCase()}
                       style={styles.button}
                       labelStyle={[styles.label, {color: COLORS.BLACK}]}
                       backgroundColor={COLORS.BLUE}
@@ -108,11 +100,11 @@ export default function Login() {
             style={styles.socialBtn}
           />
           <View style={styles.rowView}>
-            <Text style={styles.text}>{"I'm a new user "}</Text>
+            <Text style={styles.text}>{COMMON.NEW_USER}</Text>
             <Text
-              onPress={() => navigation.navigate('SignUp')}
+              onPress={() => navigation.navigate(ROUTE_NAMES.SIGN_UP_SCREEN)}
               style={[styles.heading, {color: COLORS.BLUE, fontSize: 20}]}>
-              {'Sign Up'}
+              {LABEL.SIGN_UP}
             </Text>
           </View>
         </View>

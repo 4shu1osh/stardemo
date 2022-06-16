@@ -1,13 +1,19 @@
 import {StyleSheet, Dimensions} from 'react-native';
-const {width, height} = Dimensions.get('window');
+import COLORS from '../../../utils/colors';
+import STRINGS from '../../../utils/strings';
+
+const {width} = Dimensions.get('window');
+
+const {FONT} = STRINGS;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: COLORS.BLACK,
     padding: 20,
   },
   heading: {
-    color: '#fff',
+    color: COLORS.WHITE,
     fontSize: 28,
     fontWeight: '900',
     marginVertical: 16,
@@ -15,9 +21,9 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
   forgotPassword: {
-    color: '#44C2E3',
+    color: COLORS.BLUE,
     fontSize: 16,
-    fontFamily: 'Helvetica',
+    fontFamily: FONT.HELVETICA,
     alignSelf: 'flex-end',
   },
   button: {
@@ -32,18 +38,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontStyle: 'italic',
     fontWeight: '900',
-    color: '#606060',
+    color: COLORS.GREY,
   },
   line: {
     width: width * 0.4,
     height: 1,
-    backgroundColor: '#606060',
-
+    backgroundColor: COLORS.GREY,
   },
   or: {
-    color: '#606060',
+    color: COLORS.GREY,
     fontSize: 14,
-    fontFamily: 'Helvetica',
+    fontFamily: FONT.HELVETICA,
   },
   rowView: {
     flexDirection: 'row',
@@ -53,10 +58,10 @@ const styles = StyleSheet.create({
   socialBtn: {
     height: 50,
     width: '100%',
-    marginTop: 36
+    marginTop: 36,
   },
   text: {
-    color: '#fff',
+    color: COLORS.WHITE,
     fontSize: 20,
     fontWeight: '600',
   },
@@ -67,6 +72,6 @@ const styles = StyleSheet.create({
     bottom: 8,
     right: 20,
     resizeMode: 'contain',
-  }
+  },
 });
 export default styles;

@@ -1,6 +1,11 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import COLORS from '../../../utils/colors';
+import STRINGS from '../../../utils/strings';
+
+const {FONT} = STRINGS;
+
 const {width, height} = Dimensions.get('screen');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -39,7 +44,7 @@ const styles = StyleSheet.create({
     color: COLORS.WHITE,
     fontSize: 20,
     fontWeight: '500',
-    fontFamily: 'helvetica',
+    fontFamily: FONT.HELVETICA,
   },
 
   info: {
@@ -92,13 +97,12 @@ const styles = StyleSheet.create({
   },
   bmx: {
     width: width,
-    height: height/2,
+    height: height / 2,
   },
   editButton: {
     color: COLORS.BLUE,
     textDecorationLine: 'underline',
     fontWeight: 'bold',
   },
-  
 });
 export default styles;
