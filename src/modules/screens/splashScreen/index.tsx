@@ -22,11 +22,10 @@ export default function SplashScreen() {
   }, []);
   return (
     <View style={styles.container}>
-      
       <ImageBackground
         source={require('../../../assets/images/SplashScreen.png')}
         style={styles.backgroundImg}>
- <Animated.View
+        <Animated.View
           style={[
             {
               opacity: fadeAnim,
@@ -45,9 +44,7 @@ export default function SplashScreen() {
           source={require('../../../assets/images/Border.png')}
           style={styles.imgBorder}
         />
-        
       </ImageBackground>
-      
     </View>
   );
 }

@@ -2,7 +2,7 @@ import {UserCreds} from '../../../utils/types';
 import axios from 'axios';
 import API_URL from '../../../utils/apiURL';
 
-function SignUpAction(USER: UserCreds) {
+function signUpAction(USER: UserCreds) {
   const {name, email, password, countryCode, phoneNo} = USER;
   return (dispatch: any) => {
     axios
@@ -25,4 +25,4 @@ function SignUpAction(USER: UserCreds) {
       });
   };
 }
-export default SignUpAction;
+export default signUpAction;

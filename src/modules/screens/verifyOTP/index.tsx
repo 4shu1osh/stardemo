@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React, {useRef} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import styles from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from '../../custom/customButton';
@@ -14,32 +14,35 @@ import COLORS from '../../../utils/colors';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import verification from './verification';
+import returnTimerValue from '../../../utils/timeInterval';
 
 export default function VerifyOTP() {
-
   const pin1 = useRef(null);
   const pin2 = useRef(null);
   const pin3 = useRef(null);
   const pin4 = useRef(null);
-  const [otp, setOtp] = React.useState('');
+  const [otp, setOtp] = useState('');
   const navigation = useNavigation<any>();
   const dispatch = useDispatch();
   const {userId, countryCode, phoneNo} = useSelector(
-    (store: any) => store.SignUpReducer,
+    (store: any) => store.signUpReducer,
   );
-  const [time, setTime] = React.useState(5);
+  const [timerCount, setTimerCount] = useState(100);
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(time => time - 1);      
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setTimerCount(lastTimerCount => {
+        lastTimerCount <= 1 && clearInterval(interval);
+        return lastTimerCount - 1;
+      });
     }, 1000);
     return () => clearInterval(interval);
-  }, [time > 0]);
+  }, []);
 
   const checkOTP = async () => {
-    const res = await verification(userId, otp, countryCode, phoneNo)
-    console.log('SSSS', res)
-  }
+    const res = await verification(userId, otp, countryCode, phoneNo);
+    console.log('SSSS', res);
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
@@ -56,8 +59,10 @@ export default function VerifyOTP() {
           {`Kindly enter the 4 digit verification code sent to ${
             countryCode + phoneNo
           }  `}
-          <Text onPress={() => navigation.navigate('SignUp')} style={styles.editButton}>
-            {"Edit"}
+          <Text
+            onPress={() => navigation.navigate('SignUp')}
+            style={styles.editButton}>
+            {'Edit'}
           </Text>
         </Text>
       </View>
@@ -107,7 +112,7 @@ export default function VerifyOTP() {
           />
         </View>
 
-        {otp.length ==4 ? (
+        {otp.length == 4 ? (
           <CustomButton
             onPress={checkOTP}
             disabled={false}
@@ -124,34 +129,30 @@ export default function VerifyOTP() {
             labelStyle={[styles.label, {color: COLORS.GREY}]}
             backgroundColor={COLORS.DARK_GREY}
           />
-
         )}
-         <View style={styles.colView}>
-           
-       {  time > 0 ?
-        <View style={styles.timerView}>
-            <Image
-            source={require('../../../assets/images/timer.png')}
-            style={styles.timer}
-            />
-
-          <Text style={styles.time}>{` ${time}`}</Text>
-          </View>
-          :
-          <>
-          <Text style={styles.info}>{`Didn't Receive the Code yet? `}</Text>
-          <Text style={[styles.heading, {fontSize: 18, color: COLORS.BLUE}]}>
-            {'Resend Verification Code'}
-          </Text></>
-          }
-          
+        <View style={styles.colView}>
+          {timerCount > 0 ? (
+            <View style={styles.timerView}>
+              <Image
+                source={require('../../../assets/images/timer.png')}
+                style={styles.timer}
+              />
+              <Text style={styles.time}> {returnTimerValue(timerCount)}</Text>
+            </View>
+          ) : (
+            <>
+              <Text style={styles.info}>{`Didn't Receive the Code yet? `}</Text>
+              <Text
+                style={[styles.heading, {fontSize: 18, color: COLORS.BLUE}]}>
+                {'Resend Verification Code'}
+              </Text>
+            </>
+          )}
         </View>
       </View>
       <ImageBackground
         source={require('../../../assets/images/bmx1.png')}
-        style={styles.bmx}>
-      </ImageBackground>
-      
+        style={styles.bmx}></ImageBackground>
     </SafeAreaView>
   );
 }

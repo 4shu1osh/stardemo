@@ -4,7 +4,7 @@ const initialState={
     phoneNo: '',
 }
 
-const SignUpReducer = (state = initialState, action: any) => {
+const signUpReducer = (state = initialState, action: any) => {
     const {type, payload} = action;
     switch (type) {
       case 'SIGN_UP':
@@ -14,5 +14,5 @@ const SignUpReducer = (state = initialState, action: any) => {
     }
   };
   
-  export default SignUpReducer;
+  export default signUpReducer;
   
