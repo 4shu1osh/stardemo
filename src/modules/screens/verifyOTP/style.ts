@@ -4,15 +4,15 @@ const {width, height} = Dimensions.get('screen');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
   },
   headerView: {
-    backgroundColor: 'black',
+    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
   },
   heading: {
-    color: '#fff',
+    color: COLORS.WHITE,
     fontSize: 28,
     fontWeight: '900',
     fontStyle: 'italic',
@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontStyle: 'italic',
     fontWeight: '900',
-    color: '#000',
+    color: COLORS.BLACK,
   },
 
   text: {
-    color: '#fff',
+    color: COLORS.WHITE,
     fontSize: 20,
     fontWeight: '500',
     fontFamily: 'helvetica',
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     color: COLORS.BLUE,
     textDecorationLine: 'underline',
     fontWeight: 'bold',
-  }
+  },
+  
 });
 export default styles;

@@ -6,18 +6,20 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import CustomTextInput from '../../custom/textInput';
+import CustomTextInput from '../../../components/textInput';
 import styles from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import CustomButton from '../../custom/customButton';
+import CustomButton from '../../../components/customButton';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
-import TouchableImage from '../../custom/touchableImage';
+import TouchableImage from '../../../components/touchableImage';
 import COLORS from '../../../utils/colors';
 import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import SignUpAction from './action';
+import signUpAction from './action';
+import LOCAL_IMAGES from '../../../utils/localImages';
+import ROUTE_NAMES from '../../../routes/routeNames';
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -43,27 +45,30 @@ const userInfo = {
 };
 export default function SignUp() {
   const navigation = useNavigation<any>();
+
   const dispatch = useDispatch();
+
   const [hidePass, setHidePass] = React.useState(true);
   const [isSelected, setSelection] = React.useState(false);
+  
   const eyeButton = () => (
     <TouchableImage
       onPress={() => setHidePass(!hidePass)}
       source={
         hidePass
-          ? require('../../../assets/images/ClosedEye.png')
-          : require('../../../assets/images/OpenEye.png')
+          ? LOCAL_IMAGES.CLOSED_EYE
+          : LOCAL_IMAGES.OPEN_EYE
       }
       style={styles.eye}
     />
   );
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
       <View style={styles.headerView}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
-            source={require('../../../assets/images/backButton.png')}
+            source={LOCAL_IMAGES.BACK_BUTTON}
             style={styles.backButton}
           />
         </TouchableOpacity>
@@ -154,12 +159,12 @@ export default function SignUp() {
                     <CustomButton
                       disabled={false}
                       onPress={() => {
-                        dispatch(SignUpAction(values));
-                        navigation.navigate('VerifyOTP');
+                        dispatch(signUpAction(values));
+                        navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN);
                       }}
                       label={'CREATE ACCOUNT'}
                       style={styles.button}
-                      labelStyle={[styles.label, {color: 'black'}]}
+                      labelStyle={[styles.label, {color: COLORS.BLACK}]}
                       backgroundColor={COLORS.BLUE}
                     />
                   )}
@@ -174,11 +179,11 @@ export default function SignUp() {
             <View style={styles.line} />
           </View>
           <TouchableImage
-            source={require('../../../assets/images/googleButton.png')}
+            source={LOCAL_IMAGES.GOOGLE_BUTTON}
             style={styles.socialBtn}
           />
           <TouchableImage
-            source={require('../../../assets/images/appleButton.png')}
+            source={LOCAL_IMAGES.APPLE_BUTTON}
             style={styles.socialBtn}
           />
           <View style={styles.rowView}>

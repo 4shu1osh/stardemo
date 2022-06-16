@@ -1,14 +1,16 @@
 import {View, Text, ScrollView, Alert} from 'react-native';
 import React from 'react';
-import CustomTextInput from '../../custom/textInput';
+import CustomTextInput from '../../../components/textInput';
 import styles from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import CustomButton from '../../custom/customButton';
+import CustomButton from '../../../components/customButton';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
-import TouchableImage from '../../custom/touchableImage';
+import TouchableImage from '../../../components/touchableImage';
 import COLORS from '../../../utils/colors';
 import {useNavigation} from '@react-navigation/native';
+
+import LOCAL_IMAGES from '../../../utils/localImages';
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -30,15 +32,16 @@ export default function Login() {
       onPress={() => setHidePass(!hidePass)}
       source={
         hidePass
-          ? require('../../../assets/images/ClosedEye.png')
-          : require('../../../assets/images/OpenEye.png')
+          ? LOCAL_IMAGES.CLOSED_EYE
+          : LOCAL_IMAGES.OPEN_EYE
       }
       style={styles.eye}
     />
   );
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
+     
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <View style={styles.container}>
           <Text style={styles.heading}>
@@ -51,7 +54,7 @@ export default function Login() {
             onSubmit={values => console.log(values)}>
             {({errors, touched, handleChange, handleBlur, values}) => {
               return (
-                <>
+                <React.Fragment>
                   <CustomTextInput
                     error={touched.email && errors.email}
                     label={'Email'}
@@ -67,7 +70,7 @@ export default function Login() {
                     onChangeText={handleChange('password')}
                   />
 
-                  <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                  <Text style={styles.forgotPassword}>{'Forgot Password?'}</Text>
                   {Object.keys(errors).length || values.email.length == 0 ? (
                     <CustomButton
                       disabled={true}
@@ -82,11 +85,11 @@ export default function Login() {
                       onPress={() => Alert.alert('signed in')}
                       label={'SIGN IN'}
                       style={styles.button}
-                      labelStyle={[styles.label, {color: 'black'}]}
+                      labelStyle={[styles.label, {color: COLORS.BLACK}]}
                       backgroundColor={COLORS.BLUE}
                     />
                   )}
-                </>
+                </React.Fragment>
               );
             }}
           </Formik>
@@ -97,11 +100,11 @@ export default function Login() {
             <View style={styles.line} />
           </View>
           <TouchableImage
-            source={require('../../../assets/images/googleButton.png')}
+            source={LOCAL_IMAGES.GOOGLE_BUTTON}
             style={styles.socialBtn}
           />
           <TouchableImage
-            source={require('../../../assets/images/appleButton.png')}
+            source={LOCAL_IMAGES.APPLE_BUTTON}
             style={styles.socialBtn}
           />
           <View style={styles.rowView}>

@@ -9,24 +9,32 @@ import {
 import React, {useRef, useEffect, useState} from 'react';
 import styles from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import CustomButton from '../../custom/customButton';
+import CustomButton from '../../../components/customButton';
 import COLORS from '../../../utils/colors';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import verification from './verification';
 import returnTimerValue from '../../../utils/timeInterval';
+import CustomModal from '../../../components/modal';
+import ROUTE_NAMES from '../../../routes/routeNames';
+import LOCAL_IMAGES from '../../../utils/localImages';
+
 
 export default function VerifyOTP() {
-  const pin1 = useRef(null);
-  const pin2 = useRef(null);
-  const pin3 = useRef(null);
-  const pin4 = useRef(null);
-  const [otp, setOtp] = useState('');
+
+  const pin1 = useRef<TextInput>(null);
+  const pin2 = useRef<TextInput>(null);
+  const pin3 = useRef<TextInput>(null);
+  const pin4 = useRef<TextInput>(null);
+
   const navigation = useNavigation<any>();
-  const dispatch = useDispatch();
+  
   const {userId, countryCode, phoneNo} = useSelector(
     (store: any) => store.signUpReducer,
-  );
+    );
+    
+  const [otp, setOtp] = useState('');
+  const [visible, setVisible] = useState(false);
   const [timerCount, setTimerCount] = useState(100);
 
   useEffect(() => {
@@ -41,15 +49,15 @@ export default function VerifyOTP() {
 
   const checkOTP = async () => {
     const res = await verification(userId, otp, countryCode, phoneNo);
-    console.log('SSSS', res);
+     res.status === 200 && setVisible(true);
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
       <View style={styles.headerView}>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTE_NAMES.SIGN_UP_SCREEN)}>
           <Image
-            source={require('../../../assets/images/backButton.png')}
+            source={LOCAL_IMAGES.BACK_BUTTON}
             style={styles.backButton}
           />
         </TouchableOpacity>
@@ -60,7 +68,7 @@ export default function VerifyOTP() {
             countryCode + phoneNo
           }  `}
           <Text
-            onPress={() => navigation.navigate('SignUp')}
+            onPress={() => navigation.navigate(ROUTE_NAMES.SIGN_UP_SCREEN)}
             style={styles.editButton}>
             {'Edit'}
           </Text>
@@ -74,8 +82,7 @@ export default function VerifyOTP() {
             autoFocus={true}
             onChangeText={text => {
               setOtp(otp => otp + text);
-
-              pin2.current.focus();
+              pin2?.current?.focus();
             }}
             maxLength={1}
             style={styles.input}
@@ -84,8 +91,7 @@ export default function VerifyOTP() {
             ref={pin2}
             onChangeText={text => {
               setOtp(otp => otp + text);
-
-              pin3.current.focus();
+              pin3?.current?.focus();
             }}
             maxLength={1}
             style={styles.input}
@@ -94,8 +100,7 @@ export default function VerifyOTP() {
             ref={pin3}
             onChangeText={text => {
               setOtp(otp => otp + text);
-
-              pin4.current.focus();
+              pin4?.current?.focus();
             }}
             maxLength={1}
             style={styles.input}
@@ -104,7 +109,6 @@ export default function VerifyOTP() {
             ref={pin4}
             onChangeText={text => {
               setOtp(otp => otp + text);
-
               pin4.current.blur();
             }}
             maxLength={1}
@@ -134,7 +138,7 @@ export default function VerifyOTP() {
           {timerCount > 0 ? (
             <View style={styles.timerView}>
               <Image
-                source={require('../../../assets/images/timer.png')}
+                source={LOCAL_IMAGES.TIMER}
                 style={styles.timer}
               />
               <Text style={styles.time}> {returnTimerValue(timerCount)}</Text>
@@ -151,8 +155,9 @@ export default function VerifyOTP() {
         </View>
       </View>
       <ImageBackground
-        source={require('../../../assets/images/bmx1.png')}
+        source={LOCAL_IMAGES.BMX1}
         style={styles.bmx}></ImageBackground>
+        <CustomModal visibleValue={true} buttonLabel={"CONTINUE"}/>
     </SafeAreaView>
   );
 }

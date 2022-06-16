@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './style';
 import {TextInput, Text} from 'react-native-paper';
-import COLORS from '../../../utils/colors';
+import COLORS from '../../utils/colors'
 
 export default function CustomTextInput(props: any) {
   let {rightComponent, error} = props;
   return (
-    <>
+    <React.Fragment>
       <TextInput
         {...props}
         mode="outlined"
@@ -28,6 +28,6 @@ export default function CustomTextInput(props: any) {
       />
       {rightComponent && rightComponent()}
       {error && <Text style={styles.errMsg}>{error}</Text>}
-    </>
+    </React.Fragment>
   );
 }
