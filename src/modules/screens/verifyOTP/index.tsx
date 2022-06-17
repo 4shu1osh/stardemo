@@ -9,7 +9,6 @@ import {
 import React, {useRef, useEffect, useState} from 'react';
 import styles from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import CustomButton from '../../../components/customButton';
 import COLORS from '../../../utils/colors';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
@@ -19,6 +18,7 @@ import CustomModal from '../../../components/modal';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import LOCAL_IMAGES from '../../../utils/localImages';
 import STRINGS from '../../../utils/strings';
+import {EnabledButton, DisabledButton} from '../../../components/customButton';
 
 const {COMMON, LABEL} = STRINGS;
 
@@ -36,7 +36,7 @@ export default function VerifyOTP() {
 
   const [otp, setOtp] = useState('');
   const [visible, setVisible] = useState(false);
-  const [timerCount, setTimerCount] = useState(100);
+  const [timerCount, setTimerCount] = useState(10);
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -48,9 +48,20 @@ export default function VerifyOTP() {
     return () => clearInterval(interval);
   }, []);
 
+  const openModal = () => {
+    return (
+      <CustomModal visibleValue={true} buttonLabel={STRINGS.LABEL.CONTINUE} />
+    );
+  };
+
   const checkOTP = async () => {
-    const res = await verification(userId, otp, countryCode, phoneNo);
-    res.status === 200 && setVisible(true);
+    try {
+      const res = await verification(userId, otp, countryCode, phoneNo);
+      res && setVisible(true);
+    } catch (err) {
+      console.error('Wrong OTP');
+      setOtp('');
+    }
   };
 
   return (
@@ -114,22 +125,12 @@ export default function VerifyOTP() {
         </View>
 
         {otp.length == 4 ? (
-          <CustomButton
+          <EnabledButton
             onPress={checkOTP}
-            disabled={false}
             label={LABEL.SUBMIT.toUpperCase()}
-            style={styles.button}
-            labelStyle={styles.label}
-            backgroundColor={COLORS.BLUE}
           />
         ) : (
-          <CustomButton
-            disabled={true}
-            label={LABEL.SUBMIT.toUpperCase()}
-            style={styles.button}
-            labelStyle={[styles.label, {color: COLORS.GREY}]}
-            backgroundColor={COLORS.DARK_GREY}
-          />
+          <DisabledButton label={LABEL.SUBMIT.toUpperCase()} />
         )}
         <View style={styles.colView}>
           {timerCount > 0 ? (
@@ -138,23 +139,20 @@ export default function VerifyOTP() {
               <Text style={styles.time}> {returnTimerValue(timerCount)}</Text>
             </View>
           ) : (
-            <>
+            <React.Fragment>
               <Text style={styles.info}>{COMMON.DIDNT_RECEIVE_CODE}</Text>
               <Text
                 style={[styles.heading, {fontSize: 18, color: COLORS.BLUE}]}>
                 {COMMON.RESEND_CODE}
               </Text>
-            </>
+            </React.Fragment>
           )}
         </View>
       </View>
       <ImageBackground
         source={LOCAL_IMAGES.BMX1}
         style={styles.bmx}></ImageBackground>
-      <CustomModal
-        visibleValue={true}
-        buttonLabel={LABEL.CONTINUE.toUpperCase()}
-      />
+      {visible && openModal()}
     </SafeAreaView>
   );
 }

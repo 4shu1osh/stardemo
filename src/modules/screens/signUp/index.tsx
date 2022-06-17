@@ -3,8 +3,6 @@ import React from 'react';
 import CustomTextInput from '../../../components/textInput';
 import styles from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import CustomButton from '../../../components/customButton';
-import * as Yup from 'yup';
 import {Formik} from 'formik';
 import TouchableImage from '../../../components/touchableImage';
 import COLORS from '../../../utils/colors';
@@ -16,6 +14,7 @@ import LOCAL_IMAGES from '../../../utils/localImages';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import STRINGS from '../../../utils/strings';
 import validatioSchema from '../../../utils/validationSchema';
+import { EnabledButton, DisabledButton } from '../../../components/customButton';
 
 const {COMMON, LABEL} = STRINGS;
 
@@ -124,25 +123,17 @@ export default function SignUp() {
                   {Object.keys(errors).length ||
                   email.length == 0 ||
                   !isSelected ? (
-                    <CustomButton
-                      disabled={true}
+                    <DisabledButton
                       label={COMMON.CREATE_ACCOUNT.toUpperCase()}
-                      style={styles.button}
-                      labelStyle={styles.label}
-                      backgroundColor={COLORS.DARK_GREY}
                     />
                   ) : (
-                    <CustomButton
-                      disabled={false}
+                    <EnabledButton
                       onPress={() => {
                         //@ts-ignore
                         dispatch(signUpAction(values));
                         navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN);
                       }}
                       label={COMMON.CREATE_ACCOUNT.toUpperCase()}
-                      style={styles.button}
-                      labelStyle={[styles.label, {color: COLORS.BLACK}]}
-                      backgroundColor={COLORS.BLUE}
                     />
                   )}
                 </>

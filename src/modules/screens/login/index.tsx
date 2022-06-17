@@ -3,8 +3,6 @@ import React from 'react';
 import CustomTextInput from '../../../components/textInput';
 import styles from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import CustomButton from '../../../components/customButton';
-import * as Yup from 'yup';
 import {Formik} from 'formik';
 import TouchableImage from '../../../components/touchableImage';
 import COLORS from '../../../utils/colors';
@@ -13,6 +11,7 @@ import LOCAL_IMAGES from '../../../utils/localImages';
 import STRINGS from '../../../utils/strings';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import validatioSchema from '../../../utils/validationSchema';
+import { DisabledButton, EnabledButton } from '../../../components/customButton';
 
 const {COMMON, LABEL} = STRINGS;
 
@@ -64,21 +63,13 @@ export default function Login() {
                     {COMMON.FORGOT_PASSWORD}
                   </Text>
                   {Object.keys(errors).length || values.email.length == 0 ? (
-                    <CustomButton
-                      disabled={true}
+                    <DisabledButton
                       label={LABEL.SIGN_IN.toUpperCase()}
-                      style={styles.button}
-                      labelStyle={styles.label}
-                      backgroundColor={COLORS.DARK_GREY}
                     />
                   ) : (
-                    <CustomButton
-                      disabled={false}
+                    <EnabledButton
                       onPress={() => Alert.alert('signed in')}
                       label={LABEL.SIGN_IN.toUpperCase()}
-                      style={styles.button}
-                      labelStyle={[styles.label, {color: COLORS.BLACK}]}
-                      backgroundColor={COLORS.BLUE}
                     />
                   )}
                 </React.Fragment>

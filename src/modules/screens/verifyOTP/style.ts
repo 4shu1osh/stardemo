@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '900',
     fontStyle: 'italic',
-    lineHeight: 40,
+    marginBottom: 10
   },
 
   button: {
@@ -48,8 +48,9 @@ const styles = StyleSheet.create({
   },
 
   info: {
-    fontSize: 14,
     color: COLORS.WHITE,
+    lineHeight: 20,
+    marginBottom: 10
   },
 
   time: {
@@ -72,12 +73,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
   },
   colView: {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 10,
   },
   input: {
     width: 64,
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderColor: COLORS.WHITE,
     borderWidth: 1,
-    marginTop: 35,
+    marginTop: 20,
     color: COLORS.BLUE,
     fontSize: 24,
     fontWeight: '900',
@@ -96,8 +95,8 @@ const styles = StyleSheet.create({
     width: 24,
   },
   bmx: {
-    width: width,
-    height: height / 2,
+    resizeMode: 'contain',
+    height: height / 2.5,
   },
   editButton: {
     color: COLORS.BLUE,
