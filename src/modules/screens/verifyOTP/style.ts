@@ -21,7 +21,9 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '900',
     fontStyle: 'italic',
-    marginBottom: 10
+    marginBottom: 10,
+    letterSpacing: 1
+
   },
 
   button: {

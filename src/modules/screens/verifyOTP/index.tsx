@@ -19,6 +19,7 @@ import ROUTE_NAMES from '../../../routes/routeNames';
 import LOCAL_IMAGES from '../../../utils/localImages';
 import STRINGS from '../../../utils/strings';
 import {EnabledButton, DisabledButton} from '../../../components/customButton';
+import Routes from '../../../routes';
 
 const {COMMON, LABEL} = STRINGS;
 
@@ -50,7 +51,7 @@ export default function VerifyOTP() {
 
   const openModal = () => {
     return (
-      <CustomModal visibleValue={true} buttonLabel={STRINGS.LABEL.CONTINUE} />
+      <CustomModal visibleValue={true} buttonLabel={STRINGS.LABEL.CONTINUE} callbackFn={()=> navigation.navigate(ROUTE_NAMES.WHO_ARE_YOU)} />
     );
   };
 

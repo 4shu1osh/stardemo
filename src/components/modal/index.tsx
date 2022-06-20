@@ -6,7 +6,7 @@ import styles from './style'
 import { EnabledButton } from '../customButton';
 
 const CustomModal = (props: any) => {
-  const {visibleValue, buttonLabel} = props;
+  const {visibleValue, buttonLabel, callbackFn} = props;
   const [visible, setVisible] = React.useState(visibleValue);
 
   const hideModal = () => setVisible(false);
@@ -32,7 +32,7 @@ const CustomModal = (props: any) => {
         <View style={styles.buttonView}>
           <EnabledButton
             label={buttonLabel.toUpperCase()}
-            onPress={hideModal}
+            onPress={callbackFn}
           />
         </View>
       </ImageBackground>

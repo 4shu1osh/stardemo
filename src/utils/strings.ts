@@ -10,6 +10,7 @@ const STRINGS = {
     RESEND_CODE: 'Resend Verification Code',
     VERIFY_OTP_HEADING: 'Enter Verification Code',
     ENTER_CODE: 'Kindly enter the 4 digit verification code sent to',
+    WHO_ARE_YOU_HEADING: 'Who are you?',
 
   },
   LABEL: {
@@ -22,6 +23,7 @@ const STRINGS = {
     FULL_NAME: 'Full Name',
     COUNTRY_CODE: 'Country Code',
     SUBMIT: 'Submit',
+    NEXT: 'Next',
 
   },
 

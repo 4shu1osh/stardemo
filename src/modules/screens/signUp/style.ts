@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontStyle: 'italic',
     lineHeight: 40,
+    letterSpacing: 1
+
   },
   forgotPassword: {
     color: COLORS.BLUE,

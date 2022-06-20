@@ -12,6 +12,9 @@ const LOCAL_IMAGES = {
     MODAL_RECTANGLE: require('../assets/images/ModalRect.png'),
     SPLASH_SCREEN: require('../assets/images/SplashScreen.png'),
     TIMER: require('../assets/images/Timer.png'),
+    FAN_BANNER: require('../assets/images/FanBanner.png'),
+    ATHLETE_BANNER: require('../assets/images/AthleteBanner.png'),
+    CHECK: require('../assets/images/Check.png'),
 }
 
 export default LOCAL_IMAGES;

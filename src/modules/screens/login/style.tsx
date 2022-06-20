@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     fontStyle: 'italic',
     lineHeight: 40,
+    letterSpacing: 1
+
   },
   forgotPassword: {
     color: COLORS.BLUE,

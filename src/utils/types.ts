@@ -12,5 +12,11 @@ export type UserCreds = {
     countryCode: string;
 }
 
-
+export type RootStackParamList = {
+    Splash: string;
+    SignUp: string;
+    Login: string;
+    WhoAreYou: string;
+    VerifyOtp: string;
+  };
 
