@@ -15,7 +15,7 @@ import { DisabledButton, EnabledButton } from '../../../components/customButton'
 
 const {COMMON, LABEL} = STRINGS;
 
-const userInfo = {
+const userInitialValues = {
   email: '',
   password: '',
 };
@@ -38,7 +38,7 @@ export default function Login() {
           <Text style={styles.heading}>{COMMON.SIGN_IN_HEADING}</Text>
 
           <Formik
-            initialValues={userInfo}
+            initialValues={userInitialValues}
             validationSchema={validatioSchema}
             onSubmit={values => console.log(values)}>
             {({errors, touched, handleChange, handleBlur, values}) => {

@@ -4,7 +4,7 @@ import {TextInput, Text} from 'react-native-paper';
 import COLORS from '../../utils/colors'
 
 export default function CustomTextInput(props: any) {
-  let {rightComponent, error} = props;
+  let {rightComponent, error, style} = props;
   return (
     <React.Fragment>
       <TextInput
@@ -24,7 +24,7 @@ export default function CustomTextInput(props: any) {
             error: COLORS.WHITE,
           }
         }}
-        style={styles.input}
+        style={[styles.input, style]}
       />
       {rightComponent && rightComponent()}
       {error && <Text style={styles.errMsg}>{error}</Text>}

@@ -15,6 +15,11 @@ const LOCAL_IMAGES = {
     FAN_BANNER: require('../assets/images/FanBanner.png'),
     ATHLETE_BANNER: require('../assets/images/AthleteBanner.png'),
     CHECK: require('../assets/images/Check.png'),
+    PENCIL: require('../assets/images/Pencil.png'),
+    CAMERA: require('../assets/images/Camera.png'),
+    RIGHT_ARROW: require('../assets/images/RightArrow.png'),
+    CALENDAR: require('../assets/images/Calendar.png'),
+    CROSS: require('../assets/images/Cross.png'),
 }
 
 export default LOCAL_IMAGES;

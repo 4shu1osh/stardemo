@@ -1,7 +1,7 @@
 import {View, Text, Image, ImageBackground, Animated} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import LOCAL_IMAGES from '../../../utils/localImages';
 
@@ -20,8 +20,12 @@ export default function SplashScreen() {
 
   useEffect(() => {
     setTimeout(() => {
-      //@ts-ignore
-      navigation.navigate(ROUTE_NAMES.SIGN_UP_SCREEN);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{name: ROUTE_NAMES.SIGN_UP_SCREEN}],
+        }),
+      );
     }, 3000);
   }, []);
 

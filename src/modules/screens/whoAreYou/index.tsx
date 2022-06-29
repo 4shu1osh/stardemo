@@ -57,7 +57,7 @@ export default function WhoAreYou() {
         {selection ? (
           <EnabledButton
             label={LABEL.NEXT.toUpperCase()}
-            onPress={() => Alert.alert('hello')}
+            onPress={() => navigation.navigate(ROUTE_NAMES.COMPLETE_PROFILE, {selection})}
           />
         ) : (
           <DisabledButton label={LABEL.NEXT.toUpperCase()} />

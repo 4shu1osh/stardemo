@@ -1,22 +1,21 @@
 import { StyleSheet, Dimensions } from "react-native";
 import COLORS from "../../utils/colors";
-import STRINGS from "../../utils/strings";
-
-const {FONT} = STRINGS;
+import FONTS from "../../utils/fonts";
 
 const {width} = Dimensions.get('screen');
 
 
 const styles = StyleSheet.create({
     input: {
-        height: 50,
+        // height: 50,
         borderRadius: 6,
-        width: width*0.90,
+        width: width*0.89,
         borderColor: COLORS.WHITE,
         marginVertical: 7,
-        fontFamily: FONT.HELVETICA,
+        fontFamily: FONTS.HELVETICA,
         fontSize: 16,
         fontWeight: '600',
+        paddingRight: 40,
     },
     errMsg: {
         color: COLORS.RED,

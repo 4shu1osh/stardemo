@@ -11,7 +11,7 @@ const STRINGS = {
     VERIFY_OTP_HEADING: 'Enter Verification Code',
     ENTER_CODE: 'Kindly enter the 4 digit verification code sent to',
     WHO_ARE_YOU_HEADING: 'Who are you?',
-
+    GREETING_HEADING: 'Tell us about yourself',
   },
   LABEL: {
     SIGN_IN: 'Sign In',
@@ -24,7 +24,14 @@ const STRINGS = {
     COUNTRY_CODE: 'Country Code',
     SUBMIT: 'Submit',
     NEXT: 'Next',
-
+    USERNAME: 'Username',
+    CHANGE_USERNAME: 'Change your Username',
+    DOB:'DOB (MM/DD/YYYY)',
+    ZIPCODE: 'Zipcode',
+    BIO: 'Bio',
+    REFERAL_CODE: 'Referral Code',
+    SPORTS_WATCH: 'Sports|Watch',
+    SELECT_IDENTITY: 'Select your Identity',
   },
 
   ERROR_MSG: {
@@ -40,16 +47,14 @@ const STRINGS = {
     COUNTRY_CODE_REQUIRED: 'Country Code is required',
 
   },
-  FONT: {
-    HELVETICA: 'Helvetica',
-
-  },
   ACTION_TYPE: {
     SIGN_IN: 'SIGN_IN',
     SIGN_UP: 'SIGN_UP',
     FORGOT_PASSWORD: 'FORGOT_PASSWORD',
     VERIFY_OTP: 'VERIFY_OTP',
     RESET_PASSWORD: 'RESET_PASSWORD',
+    VERIFICATION_SUCCESS: 'VERIFICATION_SUCCESS',
+    SPORTS_WATCH: 'SPORTS_WATCH',
   }
 };
 

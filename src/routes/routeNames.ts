@@ -4,5 +4,6 @@ const ROUTE_NAMES = {
     SIGN_UP_SCREEN: 'SignUpScreen',
     VERIFY_OTP_SCREEN: 'VerifyOtpScreen',
     WHO_ARE_YOU: 'WhoAreYouScreen',
+    COMPLETE_PROFILE: 'CompleteProfileScreen',
 }
 export default ROUTE_NAMES;

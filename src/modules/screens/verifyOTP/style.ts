@@ -1,10 +1,8 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import COLORS from '../../../utils/colors';
-import STRINGS from '../../../utils/strings';
+import FONTS from '../../../utils/fonts';
 
-const {FONT} = STRINGS;
-
-const {width, height} = Dimensions.get('screen');
+const {height} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +44,7 @@ const styles = StyleSheet.create({
     color: COLORS.WHITE,
     fontSize: 20,
     fontWeight: '500',
-    fontFamily: FONT.HELVETICA,
+    fontFamily: FONTS.HELVETICA,
   },
 
   info: {

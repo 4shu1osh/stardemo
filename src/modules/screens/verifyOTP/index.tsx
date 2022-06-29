@@ -11,15 +11,15 @@ import styles from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import COLORS from '../../../utils/colors';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import verification from './verification';
+import {useSelector, useDispatch} from 'react-redux';
 import returnTimerValue from '../../../utils/timeInterval';
 import CustomModal from '../../../components/modal';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import LOCAL_IMAGES from '../../../utils/localImages';
 import STRINGS from '../../../utils/strings';
 import {EnabledButton, DisabledButton} from '../../../components/customButton';
-import Routes from '../../../routes';
+import verification from './action';
+import { AnyAction } from 'redux';
 
 const {COMMON, LABEL} = STRINGS;
 
@@ -30,6 +30,7 @@ export default function VerifyOTP() {
   const pin4 = useRef<TextInput>(null);
 
   const navigation = useNavigation<any>();
+  const dispatch = useDispatch();
 
   const {userId, countryCode, phoneNo} = useSelector(
     (store: any) => store.signUpReducer,
@@ -49,20 +50,18 @@ export default function VerifyOTP() {
     return () => clearInterval(interval);
   }, []);
 
+  const callbackFn = (status:boolean) => {
+    setVisible(status)
+  }
+
   const openModal = () => {
     return (
       <CustomModal visibleValue={true} buttonLabel={STRINGS.LABEL.CONTINUE} callbackFn={()=> navigation.navigate(ROUTE_NAMES.WHO_ARE_YOU)} />
     );
   };
 
-  const checkOTP = async () => {
-    try {
-      const res = await verification(userId, otp, countryCode, phoneNo);
-      res && setVisible(true);
-    } catch (err) {
-      console.error('Wrong OTP');
-      setOtp('');
-    }
+  const checkOTP = () => {
+   dispatch(verification(userId, otp, countryCode, phoneNo, callbackFn ))
   };
 
   return (

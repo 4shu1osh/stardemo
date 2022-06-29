@@ -1,10 +1,10 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import COLORS from '../../../utils/colors';
-import STRINGS from '../../../utils/strings';
+import FONTS from '../../../utils/fonts';
+
 
 const {width} = Dimensions.get('window');
 
-const {FONT} = STRINGS;
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   forgotPassword: {
     color: COLORS.BLUE,
     fontSize: 16,
-    fontFamily: FONT.HELVETICA,
+    fontFamily: FONTS.HELVETICA,
     alignSelf: 'flex-end',
   },
   button: {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   or: {
     color: COLORS.GREY,
     fontSize: 14,
-    fontFamily: FONT.HELVETICA,
+    fontFamily: FONTS.HELVETICA,
   },
   rowView: {
     flexDirection: 'row',

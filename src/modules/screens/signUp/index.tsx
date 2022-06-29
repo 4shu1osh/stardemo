@@ -18,7 +18,7 @@ import { EnabledButton, DisabledButton } from '../../../components/customButton'
 
 const {COMMON, LABEL} = STRINGS;
 
-const userInfo = {
+const userInitialInfo = {
   email: '',
   name: '',
   password: '',
@@ -44,7 +44,7 @@ export default function SignUp() {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
       <View style={styles.headerView}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTE_NAMES.LOGIN_SCREEN)}>
           <Image source={LOCAL_IMAGES.BACK_BUTTON} style={styles.backButton} />
         </TouchableOpacity>
 
@@ -54,7 +54,7 @@ export default function SignUp() {
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <View style={styles.container}>
           <Formik
-            initialValues={userInfo}
+            initialValues={userInitialInfo}
             validationSchema={validatioSchema}
             onSubmit={values => console.log(values)}>
             {({errors, touched, handleChange, handleBlur, values}) => {
@@ -129,9 +129,8 @@ export default function SignUp() {
                   ) : (
                     <EnabledButton
                       onPress={() => {
-                        //@ts-ignore
-                        dispatch(signUpAction(values));
-                        navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN);
+                        dispatch<any>(signUpAction(values));
+                        navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN,);
                       }}
                       label={COMMON.CREATE_ACCOUNT.toUpperCase()}
                     />
