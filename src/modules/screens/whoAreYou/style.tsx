@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../../utils/colors';
+import FONTS from '../../../utils/fonts';
 
 const styles = StyleSheet.create({
   backButton: {
@@ -61,6 +62,15 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         bottom: 80,
         right: 12
+  },
+  bannerText: {
+    color: COLORS.WHITE,
+    fontSize: 26,
+    fontWeight: '900',
+    fontStyle: 'italic',
+    position: 'absolute',
+    top: 40,
+    right: 90,
   }
 });
 

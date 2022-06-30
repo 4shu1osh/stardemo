@@ -20,6 +20,7 @@ const LOCAL_IMAGES = {
     RIGHT_ARROW: require('../assets/images/RightArrow.png'),
     CALENDAR: require('../assets/images/Calendar.png'),
     CROSS: require('../assets/images/Cross.png'),
+    SELECTED: require('../assets/images/Selected.png'),
 }
 
 export default LOCAL_IMAGES;

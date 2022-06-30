@@ -61,7 +61,7 @@ export default function VerifyOTP() {
   };
 
   const checkOTP = () => {
-   dispatch(verification(userId, otp, countryCode, phoneNo, callbackFn ))
+   dispatch<any>(verification(userId, otp, countryCode, phoneNo, callbackFn ))
   };
 
   return (

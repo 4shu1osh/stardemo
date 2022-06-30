@@ -12,6 +12,7 @@ const STRINGS = {
     ENTER_CODE: 'Kindly enter the 4 digit verification code sent to',
     WHO_ARE_YOU_HEADING: 'Who are you?',
     GREETING_HEADING: 'Tell us about yourself',
+    SELECT_SPORTS_HEADING: 'Which sports do you like to watch?',
   },
   LABEL: {
     SIGN_IN: 'Sign In',
@@ -32,6 +33,8 @@ const STRINGS = {
     REFERAL_CODE: 'Referral Code',
     SPORTS_WATCH: 'Sports|Watch',
     SELECT_IDENTITY: 'Select your Identity',
+    FAN: 'Fan',
+    ATHLETE: 'Athlete',
   },
 
   ERROR_MSG: {

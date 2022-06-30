@@ -1,11 +1,4 @@
-import {
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  Text,
-  Alert,
-} from 'react-native';
+import {View, SafeAreaView, TouchableOpacity, Image, Text} from 'react-native';
 import React from 'react';
 import COLORS from '../../../utils/colors';
 import ROUTE_NAMES from '../../../routes/routeNames';
@@ -13,7 +6,6 @@ import LOCAL_IMAGES from '../../../utils/localImages';
 import {useNavigation} from '@react-navigation/native';
 import styles from './style';
 import STRINGS from '../../../utils/strings';
-import TouchableImage from '../../../components/touchableImage';
 import {DisabledButton, EnabledButton} from '../../../components/customButton';
 const {COMMON, LABEL} = STRINGS;
 
@@ -33,22 +25,23 @@ export default function WhoAreYou() {
       <View style={styles.container}>
         <TouchableOpacity
           activeOpacity={0.9}
-          style={selection == 'FAN' ? styles.selectedBanner : styles.bannerView}
-          onPress={() => setSelection('FAN')}>
+          style={selection == LABEL.FAN ? styles.selectedBanner : styles.bannerView}
+          onPress={() => setSelection(LABEL.FAN)}>
           <Image source={LOCAL_IMAGES.FAN_BANNER} style={styles.banner} />
-          {selection == 'FAN' && (
+          {selection == LABEL.FAN && (
             <Image source={LOCAL_IMAGES.CHECK} style={styles.check} />
           )}
+          <Text style={styles.bannerText}>{LABEL.FAN.toUpperCase()}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           activeOpacity={0.9}
           style={
-            selection == 'ATHLETE' ? styles.selectedBanner : styles.bannerView
+            selection == LABEL.ATHLETE ? styles.selectedBanner : styles.bannerView
           }
-          onPress={() => setSelection('ATHLETE')}>
+          onPress={() => setSelection(LABEL.ATHLETE)}>
           <Image source={LOCAL_IMAGES.ATHLETE_BANNER} style={styles.banner} />
-          {selection == 'ATHLETE' && (
+          {selection == LABEL.ATHLETE && (
             <Image source={LOCAL_IMAGES.CHECK} style={styles.check} />
           )}
         </TouchableOpacity>
@@ -57,7 +50,9 @@ export default function WhoAreYou() {
         {selection ? (
           <EnabledButton
             label={LABEL.NEXT.toUpperCase()}
-            onPress={() => navigation.navigate(ROUTE_NAMES.COMPLETE_PROFILE, {selection})}
+            onPress={() =>
+              navigation.navigate(ROUTE_NAMES.COMPLETE_PROFILE, {selection})
+            }
           />
         ) : (
           <DisabledButton label={LABEL.NEXT.toUpperCase()} />

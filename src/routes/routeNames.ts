@@ -5,5 +5,6 @@ const ROUTE_NAMES = {
     VERIFY_OTP_SCREEN: 'VerifyOtpScreen',
     WHO_ARE_YOU: 'WhoAreYouScreen',
     COMPLETE_PROFILE: 'CompleteProfileScreen',
+    SELECT_SPORTS: 'SelectSportsScreen',
 }
 export default ROUTE_NAMES;

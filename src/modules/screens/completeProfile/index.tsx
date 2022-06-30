@@ -1,13 +1,11 @@
 import {
   View,
   Text,
-  ScrollView,
   Image,
   TouchableOpacity,
   StyleSheet,
   Dimensions,
   Platform,
-  FlatList,
 } from 'react-native';
 import React from 'react';
 import CustomTextInput from '../../../components/textInput';
@@ -15,14 +13,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Formik} from 'formik';
 import TouchableImage from '../../../components/touchableImage';
 import COLORS from '../../../utils/colors';
-import CheckBox from '@react-native-community/checkbox';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
 import LOCAL_IMAGES from '../../../utils/localImages';
-import ROUTE_NAMES from '../../../routes/routeNames';
 import STRINGS from '../../../utils/strings';
 import validatioSchema from '../../../utils/validationSchema';
-import {EnabledButton, DisabledButton} from '../../../components/customButton';
 import imagePickerFunction from '../../../utils/imagePicker';
 
 import DatePicker from 'react-native-date-picker';
@@ -30,7 +23,8 @@ import {useSelector} from 'react-redux';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FONTS from '../../../utils/fonts';
-
+import {useNavigation} from '@react-navigation/native';
+import ROUTE_NAMES from '../../../routes/routeNames';
 
 const {width} = Dimensions.get('screen');
 
@@ -51,15 +45,15 @@ const CompleteProfile = ({route}: {route: any}) => {
   const [profileImage, setProfileImage] = React.useState('');
   const [date, setDate] = React.useState(new Date());
   const [datePicker, setDatePicker] = React.useState(false);
+  const [sports, setSports] = React.useState({});
 
-  const renderItem = ({item}: any) => {
-    return (
-      <View style={styles.tile}>
-        <Text style={styles.tileText}>{item}</Text>
-      </View>
-    )}
+  const navigation = useNavigation<any>();
+
+  const callbackFn = (list: any) => {
+    setSports(list);
+  };
+
   const openDatePicker = () => {
-    console.log('hellllooooooo');
     setDatePicker(true);
   };
 
@@ -107,7 +101,6 @@ const CompleteProfile = ({route}: {route: any}) => {
               const {username, dob, zipcode, bio, referralCode} = values;
               return (
                 <React.Fragment>
-                  {/* <KeyboardAwareScrollView> */}
                   <CustomTextInput
                     value={username}
                     label={`${LABEL.CHANGE_USERNAME}*`}
@@ -145,7 +138,6 @@ const CompleteProfile = ({route}: {route: any}) => {
                   <CustomTextInput
                     value={bio}
                     maxLength={250}
-                    // numberOfLines={4}
                     multiline={true}
                     style={[styles.input]}
                     label={`${LABEL.BIO}*`}
@@ -169,20 +161,45 @@ const CompleteProfile = ({route}: {route: any}) => {
                       <View style={styles.emptyComponent} />
                     )}
                   />
-                  {/* </KeyboardAwareScrollView> */}
-                  <View style={styles.sportsList}>
-                    <Text style={styles.sportsListText}>{LABEL.SPORTS_WATCH}</Text>
-                    {
-                      [11212,243,34535,453453,453455].map((item, index) => {
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate(ROUTE_NAMES.SELECT_SPORTS, {
+                        callbackFn,
+                        sports,
+                      })
+                    }>
+                    <View style={styles.sportsList}>
+                      {Object.values(sports).length === 0 && (
+                        <Text style={styles.sportsListText}>
+                          {LABEL.SPORTS_WATCH}
+                        </Text>
+                      )}
+                      {Object.values(sports).map((item: any, index) => {
                         return (
                           <View style={styles.tile} key={index}>
                             <Text style={styles.tileText}>{item}</Text>
-                            <Image source={LOCAL_IMAGES.CROSS} style={{height: 10, width: 10, resizeMode: 'contain', marginLeft: 10}}/>
+
+                            <TouchableImage
+                              source={LOCAL_IMAGES.CROSS}
+                              style={{
+                                height: 14,
+                                width: 14,
+                                resizeMode: 'contain',
+                                marginLeft: 10,
+                              }}
+                              onPress={() => {
+                                const itemId = Object.keys(sports)[index];
+                                setSports((prevData: any) => {
+                                  delete prevData[itemId];
+                                  setSports(prevData);
+                                });
+                              }}
+                            />
                           </View>
-                        )
-                      })
-                    }
-                  </View>
+                        );
+                      })}
+                    </View>
+                  </TouchableOpacity>
                 </React.Fragment>
               );
             }}
@@ -211,8 +228,6 @@ export default CompleteProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     paddingHorizontal: 20,
   },
   heading: {
@@ -340,7 +355,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
     flexDirection: 'row',
-
   },
   tileText: {
     color: COLORS.WHITE,
@@ -355,15 +369,14 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginVertical: 10,
+    paddingVertical:16
+
   },
-  sportsListText: { 
-    color: COLORS.WHITE,
-    fontSize: 12,
+  sportsListText: {
+    color: COLORS.BLUE,
+    fontSize: 16,
     backgroundColor: COLORS.BLACK,
-    position: 'absolute',
     fontWeight: '600',
-    top: -9,
-    left: 9,
-    paddingHorizontal: 3
-  }
+  },
 });

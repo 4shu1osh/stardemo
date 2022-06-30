@@ -9,6 +9,8 @@ import VerifyOTP from '../modules/screens/verifyOTP';
 import ROUTE_NAMES from './routeNames';
 import WhoAreYou from '../modules/screens/whoAreYou';
 import CompleteProfile from '../modules/screens/completeProfile';
+import SelectSports from '../modules/screens/completeProfile/selectSports';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +34,7 @@ return (
         <Stack.Screen name={ROUTE_NAMES.LOGIN_SCREEN} component={Login} />
         <Stack.Screen name={ROUTE_NAMES.WHO_ARE_YOU} component={WhoAreYou} />
         <Stack.Screen name={ROUTE_NAMES.COMPLETE_PROFILE} component={CompleteProfile} />
+        <Stack.Screen name={ROUTE_NAMES.SELECT_SPORTS} component={SelectSports} />
         <Stack.Screen
           name={ROUTE_NAMES.VERIFY_OTP_SCREEN}
           component={VerifyOTP}
