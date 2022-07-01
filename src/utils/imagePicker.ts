@@ -1,5 +1,3 @@
-import { View, Text } from 'react-native'
-import React from 'react'
 import ImagePicker from 'react-native-image-crop-picker'
 
 export default function imagePickerFunction(width: number, height: number, callbackFn: any) {
