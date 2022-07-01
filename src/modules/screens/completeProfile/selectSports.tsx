@@ -6,6 +6,7 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import COLORS from '../../../utils/colors';
@@ -27,6 +28,8 @@ export default function SelectSports({route}: any) {
 
   const [selectedSports, setSelectedSports] = React.useState({...sports});
   const [sportsList, setSportsList] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [searchText, setSearchText] = React.useState('');
 
   const {authToken} = useSelector((store: any) => store.verificationReducer);
 
@@ -35,8 +38,7 @@ export default function SelectSports({route}: any) {
     setSportsList(response);
   };
 
-  React.useEffect(() => {
-  }, [selectedSports]);
+  React.useEffect(() => {}, [selectedSports]);
 
   React.useEffect(() => {
     const $https = axios.create({
@@ -60,7 +62,46 @@ export default function SelectSports({route}: any) {
       });
   }, []);
 
+  const ListEmptyComponent = () => {
+    return (
+      <View style={styles.emptyContainer}>
+        <Image source={LOCAL_IMAGES.NO_DATA} style={styles.emptyImage} />
+        <Text style={[styles.heading, {fontSize: 16, letterSpacing: 0}]}>
+          {COMMON.NO_DATA_FOUND}
+        </Text>
+        <Text style={styles.emptyText}>
+          {COMMON.NO_DATA_FOUND_DESC + `'${searchText}'`}
+        </Text>
+      </View>
+    );
+  };
+
+  const NoDataComponent = () => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    if (isLoading)
+      return (
+        <ActivityIndicator
+          animating={isLoading}
+          size="large"
+          color={COLORS.BLUE}
+        />
+      );
+    else
+      return (
+        <View style={styles.emptyContainer}>
+          <Image source={LOCAL_IMAGES.EMPTY_BOX} style={styles.emptyImage} />
+          <Text style={[styles.heading, {fontSize: 16, letterSpacing: 0}]}>
+            {COMMON.CANNOT_FETCH_DATA}
+          </Text>
+          <Text style={styles.emptyText}>{COMMON.CANNOT_FETCH_DATA_DESC}</Text>
+        </View>
+      );
+  };
+
   const onSearchItem = (text: string) => {
+    setSearchText(text);
     setData(
       sportsList.filter((item: any) =>
         item?.sportName.toLowerCase().includes(text.toLowerCase()),
@@ -128,11 +169,15 @@ export default function SelectSports({route}: any) {
           <Text style={styles.heading}>{COMMON.SELECT_SPORTS_HEADING}</Text>
         </View>
         <SearchBar onChangeText={onSearchItem} />
+
         <FlatList
           contentContainerStyle={{alignItems: 'center'}}
           numColumns={3}
           data={data}
           renderItem={_renderItem}
+          ListEmptyComponent={
+            sportsList.length > 0 ? ListEmptyComponent : NoDataComponent
+          }
         />
 
         <View style={{alignSelf: 'center'}}>
@@ -265,5 +310,23 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 80,
     right: 5,
+  },
+  emptyImage: {
+    height: 100,
+    width: 100,
+    resizeMode: 'contain',
+    marginBottom: 20,
+    marginHorizontal: 10,
+  },
+  emptyText: {
+    color: COLORS.GREY,
+    fontSize: 14,
+    fontFamily: FONTS.HELVETICA,
+    textAlign: 'center',
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: 100,
   },
 });

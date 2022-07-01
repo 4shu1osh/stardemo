@@ -17,14 +17,13 @@ import LOCAL_IMAGES from '../../../utils/localImages';
 import STRINGS from '../../../utils/strings';
 import validatioSchema from '../../../utils/validationSchema';
 import imagePickerFunction from '../../../utils/imagePicker';
-
 import DatePicker from 'react-native-date-picker';
 import {useSelector} from 'react-redux';
-
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FONTS from '../../../utils/fonts';
 import {useNavigation} from '@react-navigation/native';
 import ROUTE_NAMES from '../../../routes/routeNames';
+import SelectIdentity from '../../../components/modal/selectIdentity';
 
 const {width} = Dimensions.get('screen');
 
@@ -46,8 +45,16 @@ const CompleteProfile = ({route}: {route: any}) => {
   const [date, setDate] = React.useState(new Date());
   const [datePicker, setDatePicker] = React.useState(false);
   const [sports, setSports] = React.useState({});
+  const [identity, setIdentity] = React.useState('');
+  const [identityModal, setIdentityModal] = React.useState(false);
 
   const navigation = useNavigation<any>();
+
+  const navigateToSports = () =>
+    navigation.navigate(ROUTE_NAMES.SELECT_SPORTS, {
+      callbackFn,
+      sports,
+    });
 
   const callbackFn = (list: any) => {
     setSports(list);
@@ -56,6 +63,19 @@ const CompleteProfile = ({route}: {route: any}) => {
   const openDatePicker = () => {
     setDatePicker(true);
   };
+
+  const modalCallback = (identity: string) => {
+    setIdentity(identity);
+    setIdentityModal(false);
+  };
+
+  const openModal = () => {
+    setIdentityModal(!identityModal);
+  };
+
+  React.useEffect(() => {
+    setSports(sports);
+  }, [sports]);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
@@ -113,6 +133,19 @@ const CompleteProfile = ({route}: {route: any}) => {
                   />
 
                   <CustomTextInput
+                    value={identity}
+                    label={`${LABEL.SELECT_IDENTITY}*`}
+                    maxLength={10}
+                    rightComponent={() => (
+                      <TouchableImage
+                        source={LOCAL_IMAGES.RIGHT_ARROW}
+                        style={styles.icon}
+                        onPress={openModal}
+                      />
+                    )}
+                  />
+
+                  <CustomTextInput
                     value={date.toLocaleDateString()}
                     label={`${LABEL.DOB}*`}
                     maxLength={10}
@@ -161,45 +194,57 @@ const CompleteProfile = ({route}: {route: any}) => {
                       <View style={styles.emptyComponent} />
                     )}
                   />
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate(ROUTE_NAMES.SELECT_SPORTS, {
-                        callbackFn,
-                        sports,
-                      })
-                    }>
-                    <View style={styles.sportsList}>
-                      {Object.values(sports).length === 0 && (
-                        <Text style={styles.sportsListText}>
+                  {/* <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={navigateToSports}
+                    > */}
+                  <View style={styles.sportsList}>
+                    {Object.values(sports).length === 0 && (
+                      <Text
+                        onPress={navigateToSports}
+                        style={styles.sportsListText}>
+                        {LABEL.SPORTS_WATCH}
+                      </Text>
+                    )}
+                    {Object.values(sports).map((item: any, index) => {
+                      return (
+                        <View style={styles.tile} key={index}>
+                          <Text style={styles.tileText}>{item}</Text>
+
+                          <TouchableImage
+                            source={LOCAL_IMAGES.CROSS}
+                            style={{
+                              height: 14,
+                              width: 14,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                            }}
+                            onPress={() => {
+                              const itemId = Object.keys(sports)[index];
+                              setSports((prevData: any) => {
+                                delete prevData[itemId];
+                                console.log("sports", prevData);
+                                setSports(prevData);
+                                console.log("set sports", sports);
+
+                              });
+                            }}
+                          />
+                        </View>
+                      );
+                    })}
+                    {Object.keys(sports).length > 0 && (
+                      <React.Fragment>
+                        <Text onPress={navigateToSports} style={styles.addMore}>
+                          {LABEL.ADD_MORE}
+                        </Text>
+                        <Text style={styles.fixedLabel}>
                           {LABEL.SPORTS_WATCH}
                         </Text>
-                      )}
-                      {Object.values(sports).map((item: any, index) => {
-                        return (
-                          <View style={styles.tile} key={index}>
-                            <Text style={styles.tileText}>{item}</Text>
-
-                            <TouchableImage
-                              source={LOCAL_IMAGES.CROSS}
-                              style={{
-                                height: 14,
-                                width: 14,
-                                resizeMode: 'contain',
-                                marginLeft: 10,
-                              }}
-                              onPress={() => {
-                                const itemId = Object.keys(sports)[index];
-                                setSports((prevData: any) => {
-                                  delete prevData[itemId];
-                                  setSports(prevData);
-                                });
-                              }}
-                            />
-                          </View>
-                        );
-                      })}
-                    </View>
-                  </TouchableOpacity>
+                      </React.Fragment>
+                    )}
+                  </View>
+                  {/* </TouchableOpacity> */}
                 </React.Fragment>
               );
             }}
@@ -218,7 +263,9 @@ const CompleteProfile = ({route}: {route: any}) => {
         onCancel={() => setDatePicker(false)}
         androidVariant="nativeAndroid"
       />
-      {date && console.log(date)}
+      {identityModal && (
+        <SelectIdentity identity={identity} modalCallback={modalCallback} />
+      )}
     </SafeAreaView>
   );
 };
@@ -370,13 +417,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginVertical: 10,
-    paddingVertical:16
-
+    paddingVertical: 16,
   },
   sportsListText: {
-    color: COLORS.BLUE,
+    color: COLORS.WHITE,
     fontSize: 16,
     backgroundColor: COLORS.BLACK,
     fontWeight: '600',
+    width: width * 0.79,
+  },
+  addMore: {
+    color: COLORS.BLUE,
+    fontSize: 14,
+    fontStyle: 'italic',
+    fontWeight: '900',
+    alignSelf: 'center',
+  },
+  fixedLabel: {
+    color: COLORS.WHITE,
+    fontSize: 12,
+    position: 'absolute',
+    backgroundColor: COLORS.BLACK,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    top: -12,
+    left: 10,
   },
 });

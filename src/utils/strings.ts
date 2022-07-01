@@ -13,6 +13,10 @@ const STRINGS = {
     WHO_ARE_YOU_HEADING: 'Who are you?',
     GREETING_HEADING: 'Tell us about yourself',
     SELECT_SPORTS_HEADING: 'Which sports do you like to watch?',
+    NO_DATA_FOUND: 'No Result Found',
+    NO_DATA_FOUND_DESC: 'Sorry, no search results found for your search ',
+    CANNOT_FETCH_DATA: 'Cannot fetch data',
+    CANNOT_FETCH_DATA_DESC: 'Sorry, something went wrong!',
   },
   LABEL: {
     SIGN_IN: 'Sign In',
@@ -35,6 +39,7 @@ const STRINGS = {
     SELECT_IDENTITY: 'Select your Identity',
     FAN: 'Fan',
     ATHLETE: 'Athlete',
+    ADD_MORE: '+ Add More',
   },
 
   ERROR_MSG: {

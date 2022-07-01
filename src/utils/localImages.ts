@@ -21,6 +21,10 @@ const LOCAL_IMAGES = {
     CALENDAR: require('../assets/images/Calendar.png'),
     CROSS: require('../assets/images/Cross.png'),
     SELECTED: require('../assets/images/Selected.png'),
+    SEARCH_ICON: require('../assets/images/SearchIcon.png'),
+    NO_DATA: require('../assets/images/NoData.png'),
+    EMPTY_BOX: require('../assets/images/EmptyBox.png'),
+    CLOSE_BUTTON: require('../assets/images/CloseButton.png'),
 }
 
 export default LOCAL_IMAGES;
