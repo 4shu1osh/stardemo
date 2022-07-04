@@ -6,5 +6,6 @@ const ROUTE_NAMES = {
     WHO_ARE_YOU: 'WhoAreYouScreen',
     COMPLETE_PROFILE: 'CompleteProfileScreen',
     SELECT_SPORTS: 'SelectSportsScreen',
+    ZIP_CODE: 'ZipCodeScreen',
 }
 export default ROUTE_NAMES;

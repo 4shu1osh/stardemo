@@ -17,6 +17,9 @@ const STRINGS = {
     NO_DATA_FOUND_DESC: 'Sorry, no search results found for your search ',
     CANNOT_FETCH_DATA: 'Cannot fetch data',
     CANNOT_FETCH_DATA_DESC: 'Sorry, something went wrong!',
+    SEARCH_ZIP_CODE: 'Search Zip Code',
+    SEARCH: 'Search',
+    
   },
   LABEL: {
     SIGN_IN: 'Sign In',

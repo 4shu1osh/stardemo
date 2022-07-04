@@ -47,6 +47,7 @@ const CompleteProfile = ({route}: {route: any}) => {
   const [sports, setSports] = React.useState({});
   const [identity, setIdentity] = React.useState('');
   const [identityModal, setIdentityModal] = React.useState(false);
+  const [zip, setZip] = React.useState('');
 
   const navigation = useNavigation<any>();
 
@@ -56,8 +57,17 @@ const CompleteProfile = ({route}: {route: any}) => {
       sports,
     });
 
+  const navigateToZipCode = () =>
+    navigation.navigate(ROUTE_NAMES.ZIP_CODE, {
+      zipCallback,
+    });
+
   const callbackFn = (list: any) => {
     setSports(list);
+  };
+
+  const zipCallback = (res: any) => {
+    setZip(res);
   };
 
   const openDatePicker = () => {
@@ -135,7 +145,8 @@ const CompleteProfile = ({route}: {route: any}) => {
                   <CustomTextInput
                     value={identity}
                     label={`${LABEL.SELECT_IDENTITY}*`}
-                    maxLength={10}
+                    onFocus={openModal}
+                    caretHidden={true}
                     rightComponent={() => (
                       <TouchableImage
                         source={LOCAL_IMAGES.RIGHT_ARROW}
@@ -148,7 +159,8 @@ const CompleteProfile = ({route}: {route: any}) => {
                   <CustomTextInput
                     value={date.toLocaleDateString()}
                     label={`${LABEL.DOB}*`}
-                    maxLength={10}
+                    onFocus={openDatePicker}
+                    careHidden={true}
                     rightComponent={() => (
                       <TouchableImage
                         source={LOCAL_IMAGES.CALENDAR}
@@ -158,11 +170,11 @@ const CompleteProfile = ({route}: {route: any}) => {
                     )}
                   />
                   <CustomTextInput
-                    value={zipcode}
+                    value={zip}
                     label={`${LABEL.ZIPCODE}*`}
-                    onBlur={handleBlur('zipcode')}
-                    onChangeText={handleChange('zipcode')}
-                    error={touched.zipcode && errors.zipcode}
+                    caretHidden={true}
+                    onFocus={navigateToZipCode}
+                    careHidden={true}
                     rightComponent={() => (
                       <View style={styles.emptyComponent} />
                     )}
@@ -194,10 +206,6 @@ const CompleteProfile = ({route}: {route: any}) => {
                       <View style={styles.emptyComponent} />
                     )}
                   />
-                  {/* <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={navigateToSports}
-                    > */}
                   <View style={styles.sportsList}>
                     {Object.values(sports).length === 0 && (
                       <Text
@@ -206,10 +214,10 @@ const CompleteProfile = ({route}: {route: any}) => {
                         {LABEL.SPORTS_WATCH}
                       </Text>
                     )}
-                    {Object.values(sports).map((item: any, index) => {
+                    {Object.keys(sports)?.map((keyItem: string) => {
                       return (
-                        <View style={styles.tile} key={index}>
-                          <Text style={styles.tileText}>{item}</Text>
+                        <View style={styles.tile}>
+                          <Text style={styles.tileText}>{sports[keyItem]}</Text>
 
                           <TouchableImage
                             source={LOCAL_IMAGES.CROSS}
@@ -220,14 +228,9 @@ const CompleteProfile = ({route}: {route: any}) => {
                               marginLeft: 10,
                             }}
                             onPress={() => {
-                              const itemId = Object.keys(sports)[index];
-                              setSports((prevData: any) => {
-                                delete prevData[itemId];
-                                console.log("sports", prevData);
-                                setSports(prevData);
-                                console.log("set sports", sports);
-
-                              });
+                              let copyObj = JSON.parse(JSON.stringify(sports));
+                              delete copyObj[keyItem];
+                              setSports(copyObj);
                             }}
                           />
                         </View>
@@ -244,7 +247,6 @@ const CompleteProfile = ({route}: {route: any}) => {
                       </React.Fragment>
                     )}
                   </View>
-                  {/* </TouchableOpacity> */}
                 </React.Fragment>
               );
             }}
@@ -395,7 +397,7 @@ const styles = StyleSheet.create({
   tile: {
     height: 30,
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 6,
     backgroundColor: COLORS.DARK_GREY,
     borderRadius: 5,
     justifyContent: 'center',

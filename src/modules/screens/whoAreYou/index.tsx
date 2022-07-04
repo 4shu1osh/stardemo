@@ -17,7 +17,7 @@ export default function WhoAreYou() {
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
       <View style={styles.headerView}>
         <TouchableOpacity
-          onPress={() => navigation.navigate(ROUTE_NAMES.SIGN_UP_SCREEN)}>
+          onPress={() => navigation.navigate(ROUTE_NAMES.SIGN_UP_SCREEN, )}>
           <Image source={LOCAL_IMAGES.BACK_BUTTON} style={styles.backButton} />
         </TouchableOpacity>
         <Text style={styles.heading}>{COMMON.WHO_ARE_YOU_HEADING}</Text>
@@ -51,7 +51,7 @@ export default function WhoAreYou() {
           <EnabledButton
             label={LABEL.NEXT.toUpperCase()}
             onPress={() =>
-              navigation.navigate(ROUTE_NAMES.COMPLETE_PROFILE, {selection})
+              navigation.navigate(ROUTE_NAMES.COMPLETE_PROFILE, {iden: selection})
             }
           />
         ) : (
