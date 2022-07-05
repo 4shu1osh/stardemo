@@ -18,6 +18,7 @@ const SelectIdentity = ({modalCallback, identity}: any) => {
   console.log('modal');
   const [visible, setVisible] = React.useState(true);
   const [selection, setSelection] = React.useState(identity);
+  
   return (
     <Modal
       animationType="slide"
@@ -38,7 +39,7 @@ const SelectIdentity = ({modalCallback, identity}: any) => {
           style={
             selection == LABEL.FAN ? styles.selectedBanner : styles.bannerView
           }
-          onPress={() => setSelection(LABEL.FAN)}>
+          onPress={() => {setSelection(LABEL.FAN) }}>
           <Image source={LOCAL_IMAGES.FAN_BANNER} style={styles.banner} />
           {selection == LABEL.FAN && (
             <Image source={LOCAL_IMAGES.CHECK} style={styles.icon} />

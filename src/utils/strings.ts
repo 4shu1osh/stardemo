@@ -19,7 +19,7 @@ const STRINGS = {
     CANNOT_FETCH_DATA_DESC: 'Sorry, something went wrong!',
     SEARCH_ZIP_CODE: 'Search Zip Code',
     SEARCH: 'Search',
-    
+
   },
   LABEL: {
     SIGN_IN: 'Sign In',
@@ -27,7 +27,7 @@ const STRINGS = {
     CONTINUE: 'Continue',
     EMAIL: 'Email',
     PASSWORD: 'Password',
-    PHONE_NUMBER: 'Phone Number',
+    PHONE_NUMBER: 'Mobile Number',
     FULL_NAME: 'Full Name',
     COUNTRY_CODE: 'Country Code',
     SUBMIT: 'Submit',

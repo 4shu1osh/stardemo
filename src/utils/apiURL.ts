@@ -6,5 +6,6 @@ const API_URL = {
     RESEND_OTP: '/user/resend-otp',
     SPORTS: '/user/sports',
     ZIPCODE: '/zipcode-list',
+    CHECK_USERNAME: '/user/check-username',
 }
 export default API_URL;

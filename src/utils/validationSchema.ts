@@ -19,7 +19,6 @@ const validationSchema = Yup.object({
     .trim()
     .min(8, ERROR_MSG.ENTER_VALID_PASSWORD)
     .required(ERROR_MSG.PASSWORD_REQUIRED),
-  countryCode: Yup.string().required(ERROR_MSG.COUNTRY_CODE_REQUIRED),
 });
 
 export default validationSchema;

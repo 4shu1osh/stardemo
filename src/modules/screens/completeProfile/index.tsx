@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import CustomTextInput from '../../../components/textInput';
@@ -18,27 +19,32 @@ import STRINGS from '../../../utils/strings';
 import validatioSchema from '../../../utils/validationSchema';
 import imagePickerFunction from '../../../utils/imagePicker';
 import DatePicker from 'react-native-date-picker';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FONTS from '../../../utils/fonts';
 import {useNavigation} from '@react-navigation/native';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import SelectIdentity from '../../../components/modal/selectIdentity';
+import getFirstName from '../../../utils/getFirstName';
+import {checkUserNameAction} from './action';
 
 const {width} = Dimensions.get('screen');
 
 const {COMMON, LABEL} = STRINGS;
 
-const userInitialInfo = {
-  dob: '',
-  username: '',
-  zipcode: '',
-  bio: '',
-  referralCode: '',
-};
+const CompleteProfile = ({route}: any) => {
+  const {name, authToken, userId, username} = useSelector(
+    (store: any) => store.verificationReducer,
+  );
+  const dispatch = useDispatch<any>();
 
-const CompleteProfile = ({route}: {route: any}) => {
-  const {name} = useSelector((store: any) => store.verificationReducer);
+  const userInitialInfo = {
+    dob: '',
+    // username: changeToUsername(name),
+    zipcode: '',
+    bio: '',
+    referralCode: '',
+  };
 
   const [coverImage, setCoverImage] = React.useState('');
   const [profileImage, setProfileImage] = React.useState('');
@@ -48,6 +54,9 @@ const CompleteProfile = ({route}: {route: any}) => {
   const [identity, setIdentity] = React.useState('');
   const [identityModal, setIdentityModal] = React.useState(false);
   const [zip, setZip] = React.useState('');
+  const [usernameSuggestions, setUsernameSuggestions] = React.useState([]);
+  const [user_name, setUser_name] = React.useState(username);
+  const [userNameError, setUserNameError] = React.useState('');
 
   const navigation = useNavigation<any>();
 
@@ -66,6 +75,11 @@ const CompleteProfile = ({route}: {route: any}) => {
     setSports(list);
   };
 
+  const getUsername = (list: any, err: string) => {
+    setUsernameSuggestions(list);
+    setUserNameError(err);
+    console.log('list errrrrrr====', userNameError);
+  };
   const zipCallback = (res: any) => {
     setZip(res);
   };
@@ -84,13 +98,35 @@ const CompleteProfile = ({route}: {route: any}) => {
   };
 
   React.useEffect(() => {
+    // dispatch(checkUserNameAction(authToken, getUsername, name, userId));
     setSports(sports);
   }, [sports]);
+
+  const onChangeText = (text: string) => {
+    setUser_name(text);
+    dispatch(checkUserNameAction(authToken, getUsername, text, userId));
+    console.log('>>>>>>>>list of names', usernameSuggestions);
+  };
+
+  const _renderItem = ({item}: any) => {
+    console.log('username => ', item);
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        // style={styles.usernameSuggestion}
+        onPress={() => {
+          setUser_name(item);
+          setUsernameSuggestions([]);
+        }}>
+        <Text style={styles.usernameSuggestionText}>{item}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
       <View style={styles.headerView}>
-        <Text style={styles.heading}>{`Hi ${name}!`}</Text>
+        <Text style={styles.heading}>{`Hi ${getFirstName(name)}!`}</Text>
         <Text style={styles.heading}>{COMMON.GREETING_HEADING}</Text>
       </View>
       <KeyboardAwareScrollView
@@ -128,57 +164,108 @@ const CompleteProfile = ({route}: {route: any}) => {
             validationSchema={validatioSchema}
             onSubmit={values => console.log(values)}>
             {({errors, touched, handleChange, handleBlur, values}) => {
-              const {username, dob, zipcode, bio, referralCode} = values;
+              const {dob, zipcode, bio, referralCode} = values;
               return (
                 <React.Fragment>
                   <CustomTextInput
-                    value={username}
+                    value={user_name}
                     label={`${LABEL.CHANGE_USERNAME}*`}
-                    onBlur={handleBlur('username')}
-                    onChangeText={handleChange('username')}
-                    error={touched.username && errors.username}
+                    onBlur={() => onChangeText(user_name)}
+                    onChangeText={text => setUser_name(text)}
                     rightComponent={() => (
-                      <Image source={LOCAL_IMAGES.PENCIL} style={styles.icon} />
-                    )}
-                  />
-
-                  <CustomTextInput
-                    value={identity}
-                    label={`${LABEL.SELECT_IDENTITY}*`}
-                    onFocus={openModal}
-                    caretHidden={true}
-                    rightComponent={() => (
-                      <TouchableImage
-                        source={LOCAL_IMAGES.RIGHT_ARROW}
+                      <Image
+                        source={
+                          user_name ? LOCAL_IMAGES.CHECK : LOCAL_IMAGES.PENCIL
+                        }
                         style={styles.icon}
-                        onPress={openModal}
                       />
                     )}
                   />
 
-                  <CustomTextInput
-                    value={date.toLocaleDateString()}
-                    label={`${LABEL.DOB}*`}
-                    onFocus={openDatePicker}
-                    careHidden={true}
-                    rightComponent={() => (
-                      <TouchableImage
-                        source={LOCAL_IMAGES.CALENDAR}
-                        style={styles.icon}
-                        onPress={openDatePicker}
-                      />
+                  {usernameSuggestions.length > 0 && (
+                    <React.Fragment>
+                      <Text style={styles.errText}>{userNameError}</Text>
+                      <View style={styles.usernameSuggestionView}>
+                        <Text style={styles.usernameSuggestionText}>
+                          {'Suggestions: '}
+                        </Text>
+                        <FlatList
+                          horizontal={true}
+                          data={usernameSuggestions}
+                          renderItem={_renderItem}
+                          keyExtractor={(_, index) => index.toString()}
+                          ItemSeparatorComponent={() => (
+                            <Text style={styles.usernameSuggestionText}>
+                              {',  '}
+                            </Text>
+                          )}
+                        />
+                      </View>
+                    </React.Fragment>
+                  )}
+
+                  <TouchableOpacity
+                    style={styles.identityView}
+                    activeOpacity={0.8}
+                    onPress={() => openModal()}>
+                    <Text
+                      style={{
+                        color: COLORS.BLUE,
+                        fontFamily: FONTS.HELVETICA,
+                        fontSize: 15,
+                      }}>
+                      {identity ? identity : LABEL.SELECT_IDENTITY}
+                    </Text>
+                    <Image
+                      source={LOCAL_IMAGES.RIGHT_ARROW}
+                      style={styles.rightArrow}
+                    />
+                    {identity.length > 0 && (
+                      <Text style={styles.fixedLabel}>
+                        {LABEL.SELECT_IDENTITY}
+                      </Text>
                     )}
-                  />
-                  <CustomTextInput
-                    value={zip}
-                    label={`${LABEL.ZIPCODE}*`}
-                    caretHidden={true}
-                    onFocus={navigateToZipCode}
-                    careHidden={true}
-                    rightComponent={() => (
-                      <View style={styles.emptyComponent} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.identityView}
+                    activeOpacity={0.8}
+                    onPress={openDatePicker}>
+                    <Text
+                      style={{
+                        color: COLORS.BLUE,
+                        fontFamily: FONTS.HELVETICA,
+                        fontSize: 15,
+                      }}>
+                      {date.toLocaleDateString()
+                        ? date.toLocaleDateString()
+                        : LABEL.DOB}
+                    </Text>
+                    <Image
+                      source={LOCAL_IMAGES.CALENDAR}
+                      style={styles.rightArrow}
+                    />
+                    {date.toLocaleDateString().length > 0 && (
+                      <Text style={styles.fixedLabel}>{LABEL.DOB}</Text>
                     )}
-                  />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.identityView}
+                    activeOpacity={0.8}
+                    onPress={navigateToZipCode}>
+                    <Text
+                      style={{
+                        color: COLORS.BLUE,
+                        fontFamily: FONTS.HELVETICA,
+                        fontSize: 15,
+                      }}>
+                      {zip ? zip : LABEL.ZIPCODE}
+                    </Text>
+                    {zip.length > 0 && (
+                      <Text style={styles.fixedLabel}>{LABEL.ZIPCODE}</Text>
+                    )}
+                  </TouchableOpacity>
 
                   <CustomTextInput
                     value={bio}
@@ -218,7 +305,6 @@ const CompleteProfile = ({route}: {route: any}) => {
                       return (
                         <View style={styles.tile}>
                           <Text style={styles.tileText}>{sports[keyItem]}</Text>
-
                           <TouchableImage
                             source={LOCAL_IMAGES.CROSS}
                             style={{
@@ -306,7 +392,7 @@ const styles = StyleSheet.create({
     width: 20,
     resizeMode: 'contain',
     position: 'absolute',
-    top: 12,
+    top: 18,
     right: 15,
   },
   coverImgBg: {
@@ -421,6 +507,19 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingVertical: 16,
   },
+  identityView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+    height: 60,
+    width: width * 0.89,
+    borderWidth: 2,
+    borderColor: COLORS.WHITE,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 26,
+  },
   sportsListText: {
     color: COLORS.WHITE,
     fontSize: 16,
@@ -444,5 +543,21 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     top: -12,
     left: 10,
+  },
+  usernameSuggestionText: {
+    color: COLORS.WHITE,
+    fontSize: 15,
+    fontFamily: FONTS.HELVETICA,
+    letterSpacing: 0.6,
+  },
+  errText: {
+    color: COLORS.RED,
+    fontSize: 12,
+    fontFamily: FONTS.HELVETICA,
+    top: -18,
+  },
+  usernameSuggestionView: {
+    flexDirection: 'row',
+    top: -6,
   },
 });

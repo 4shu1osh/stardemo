@@ -8,7 +8,6 @@ import {
   Image,
 } from 'react-native';
 import React from 'react';
-import {EnabledButton, DisabledButton} from '../../../components/customButton';
 import COLORS from '../../../utils/colors';
 import LOCAL_IMAGES from '../../../utils/localImages';
 import STRINGS from '../../../utils/strings';
@@ -16,18 +15,17 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import SearchBar from '../../../components/searchBar';
-import FONTS from '../../../utils/fonts';
 import {zipCodeAction} from './action';
 import ListEmptyComponent from '../../../components/listEmptyComponent';
 import NoDataComponent from '../../../components/noDataComponent';
 
-const {LABEL, COMMON} = STRINGS;
+const {COMMON} = STRINGS;
 
 export default function ZipcodeSearch({route}: any) {
   const {zipCallback} = route.params;
 
   const [data, setData] = React.useState([]);
-  const [searchText, setSearchText] = React.useState('1');
+  const [searchText, setSearchText] = React.useState('');
   const [selectedZip, setSelectedZip] = React.useState('');
   const [zipCodeList, setZipCodeList] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -58,11 +56,11 @@ export default function ZipcodeSearch({route}: any) {
     setIsLoading(false);
   };
 
-  React.useEffect(() => {}, [zipCodeList]);
+//   React.useEffect(() => {}, [zipCodeList]);
 
   React.useEffect(() => {
     setData([])
-    dispatch(zipCodeAction(authToken, getZipCode, page, searchText));
+    searchText.length > 0 && dispatch(zipCodeAction(authToken, getZipCode, page, searchText));
   }, [searchText]);
 
   const _renderItem = ({item}: any) => {
@@ -105,7 +103,7 @@ export default function ZipcodeSearch({route}: any) {
           data={data}
           renderItem={_renderItem}
           ListEmptyComponent={
-            searchText.length > 0? ListEmptyComponent({searchText}) : NoDataComponent
+            searchText.length > 0 ? ListEmptyComponent({searchText}) : null
           }
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}

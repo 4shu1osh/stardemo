@@ -14,7 +14,7 @@ import LOCAL_IMAGES from '../../../utils/localImages';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import STRINGS from '../../../utils/strings';
 import validatioSchema from '../../../utils/validationSchema';
-import { EnabledButton, DisabledButton } from '../../../components/customButton';
+import {EnabledButton, DisabledButton} from '../../../components/customButton';
 
 const {COMMON, LABEL} = STRINGS;
 
@@ -22,7 +22,6 @@ const userInitialInfo = {
   email: '',
   name: '',
   password: '',
-  countryCode: '',
   phoneNo: '',
 };
 export default function SignUp() {
@@ -44,7 +43,8 @@ export default function SignUp() {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
       <View style={styles.headerView}>
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTE_NAMES.LOGIN_SCREEN)}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(ROUTE_NAMES.LOGIN_SCREEN)}>
           <Image source={LOCAL_IMAGES.BACK_BUTTON} style={styles.backButton} />
         </TouchableOpacity>
 
@@ -58,7 +58,7 @@ export default function SignUp() {
             validationSchema={validatioSchema}
             onSubmit={values => console.log(values)}>
             {({errors, touched, handleChange, handleBlur, values}) => {
-              const {name, email, password, countryCode, phoneNo} = values;
+              const {name, email, password, phoneNo} = values;
               return (
                 <>
                   <CustomTextInput
@@ -70,14 +70,8 @@ export default function SignUp() {
                   />
 
                   <CustomTextInput
-                    value={countryCode}
-                    label={`${LABEL.COUNTRY_CODE}*`}
-                    onBlur={handleBlur('countryCode')}
-                    onChangeText={handleChange('countryCode')}
-                  />
-
-                  <CustomTextInput
                     value={phoneNo}
+                    keyboardType={'number-pad'}
                     label={`${LABEL.PHONE_NUMBER}*`}
                     onBlur={handleBlur('phoneNo')}
                     onChangeText={handleChange('phoneNo')}
@@ -130,7 +124,7 @@ export default function SignUp() {
                     <EnabledButton
                       onPress={() => {
                         dispatch<any>(signUpAction(values));
-                        navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN,);
+                        navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN);
                       }}
                       label={COMMON.CREATE_ACCOUNT.toUpperCase()}
                     />

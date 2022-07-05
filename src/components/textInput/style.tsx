@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
         marginVertical: 7,
         fontFamily: FONTS.HELVETICA,
         fontSize: 16,
-        fontWeight: '600',
         paddingRight: 40,
     },
     errMsg: {
