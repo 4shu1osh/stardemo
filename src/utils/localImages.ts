@@ -25,6 +25,17 @@ const LOCAL_IMAGES = {
     NO_DATA: require('../assets/images/NoData.png'),
     EMPTY_BOX: require('../assets/images/EmptyBox.png'),
     CLOSE_BUTTON: require('../assets/images/CloseButton.png'),
+    ACCOUNT: require('../assets/images/account.png'),
+    HOME: require('../assets/images/home.png'),
+    SEARCH: require('../assets/images/search.png'),
+    UPLOAD: require('../assets/images/upload.png'),
+    ACTIVITY: require('../assets/images/activity.png'),
+    SHARE: require('../assets/images/ic_Share.png'),
+    SAVE: require('../assets/images/ic_Save.png'),
+    RATE: require('../assets/images/ic_Rate.png'),
+    FULLSCREEN: require('../assets/images/ic_FullScreen.png'),
+    CURVED_ARROW: require('../assets/images/CurvedArrow.png'),
+    MAIN_LOGO: require('../assets/images/MainLogo.png'),
 }
 
 export default LOCAL_IMAGES;

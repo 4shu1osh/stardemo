@@ -26,17 +26,21 @@ import {useNavigation} from '@react-navigation/native';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import SelectIdentity from '../../../components/modal/selectIdentity';
 import getFirstName from '../../../utils/getFirstName';
-import {checkUserNameAction} from './action';
+import {checkUserNameAction, recommendationAction} from './action';
+import { EnabledButton, DisabledButton } from '../../../components/customButton';
 
 const {width} = Dimensions.get('screen');
 
 const {COMMON, LABEL} = STRINGS;
 
-const CompleteProfile = ({route}: any) => {
-  const {name, authToken, userId, username} = useSelector(
+const  CompleteProfile = ({route}: any) => {
+  const {name, authToken, _id, username} = useSelector(
     (store: any) => store.verificationReducer,
   );
+  const Store = useSelector((store: any) => store.verificationReducer);
   const dispatch = useDispatch<any>();
+
+  console.log("route = ", route.params, Store)
 
   const userInitialInfo = {
     dob: '',
@@ -51,12 +55,15 @@ const CompleteProfile = ({route}: any) => {
   const [date, setDate] = React.useState(new Date());
   const [datePicker, setDatePicker] = React.useState(false);
   const [sports, setSports] = React.useState({});
-  const [identity, setIdentity] = React.useState('');
+  const [identity, setIdentity] = React.useState(route.params.iden);
   const [identityModal, setIdentityModal] = React.useState(false);
   const [zip, setZip] = React.useState('');
   const [usernameSuggestions, setUsernameSuggestions] = React.useState([]);
   const [user_name, setUser_name] = React.useState(username);
   const [userNameError, setUserNameError] = React.useState('');
+  const [userType, setUserType] = React.useState(
+    identity === LABEL.FAN ? 1 : 2
+  );
 
   const navigation = useNavigation<any>();
 
@@ -90,6 +97,9 @@ const CompleteProfile = ({route}: any) => {
 
   const modalCallback = (identity: string) => {
     setIdentity(identity);
+    setUserType(
+      identity === LABEL.FAN ? 1 : 2
+    )
     setIdentityModal(false);
   };
 
@@ -107,6 +117,14 @@ const CompleteProfile = ({route}: any) => {
     dispatch(checkUserNameAction(authToken, getUsername, text, userId));
     console.log('>>>>>>>>list of names', usernameSuggestions);
   };
+
+  const recommendationCallback = (list: any) => {
+    navigation.navigate(ROUTE_NAMES.ATHLETE_RECOMMENDATION, {list, name, authToken, _id, username, zip, userType});
+}
+
+  const onPressNext = ()=> {
+    dispatch(recommendationAction(authToken, recommendationCallback));
+  }
 
   const _renderItem = ({item}: any) => {
     console.log('username => ', item);
@@ -171,7 +189,7 @@ const CompleteProfile = ({route}: any) => {
                     value={user_name}
                     label={`${LABEL.CHANGE_USERNAME}*`}
                     onBlur={() => onChangeText(user_name)}
-                    onChangeText={text => setUser_name(text)}
+                    onChangeText={(text:string) => setUser_name(text)}
                     rightComponent={() => (
                       <Image
                         source={
@@ -333,6 +351,9 @@ const CompleteProfile = ({route}: any) => {
                       </React.Fragment>
                     )}
                   </View>
+                      <EnabledButton label={LABEL.NEXT.toUpperCase()}
+                      onPress={onPressNext}
+                      />
                 </React.Fragment>
               );
             }}

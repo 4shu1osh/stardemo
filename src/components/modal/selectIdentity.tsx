@@ -18,6 +18,12 @@ const SelectIdentity = ({modalCallback, identity}: any) => {
   console.log('modal');
   const [visible, setVisible] = React.useState(true);
   const [selection, setSelection] = React.useState(identity);
+
+  const closeModal = () => {
+    setTimeout(() => {
+      setVisible(false);
+    }, 1000)
+  }
   
   return (
     <Modal
@@ -39,7 +45,10 @@ const SelectIdentity = ({modalCallback, identity}: any) => {
           style={
             selection == LABEL.FAN ? styles.selectedBanner : styles.bannerView
           }
-          onPress={() => {setSelection(LABEL.FAN) }}>
+          onPress={() => {
+            setSelection(LABEL.FAN)
+            modalCallback(LABEL.FAN)
+           }}>
           <Image source={LOCAL_IMAGES.FAN_BANNER} style={styles.banner} />
           {selection == LABEL.FAN && (
             <Image source={LOCAL_IMAGES.CHECK} style={styles.icon} />
@@ -54,7 +63,11 @@ const SelectIdentity = ({modalCallback, identity}: any) => {
               ? styles.selectedBanner
               : styles.bannerView
           }
-          onPress={() => setSelection(LABEL.ATHLETE)}>
+          onPress={() =>{
+             setSelection(LABEL.ATHLETE)
+             modalCallback(LABEL.ATHLETE)
+            }
+            }>
           <Image source={LOCAL_IMAGES.ATHLETE_BANNER} style={styles.banner} />
           {selection == LABEL.ATHLETE && (
             <Image source={LOCAL_IMAGES.CHECK} style={styles.icon} />

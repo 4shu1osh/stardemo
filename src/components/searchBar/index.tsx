@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     position: 'absolute',
     zIndex: 1,
-    left: 30,
+    left: 10,
     alignSelf: 'center',
   },
   input: {
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginVertical: 20,
     height: 40,
-    width: '90%',
+    width: '100%',
   },
 });

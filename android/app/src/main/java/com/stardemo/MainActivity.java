@@ -3,8 +3,30 @@ package com.stardemo;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
+import android.content.Intent;
+import android.content.res.Configuration;
 
+import org.wonday.orientation.OrientationPackage;
+  
 public class MainActivity extends ReactActivity {
+
+  @Override
+    protected List<ReactPackage> getPackages() {
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // packages.add(new MyReactNativePackage());
+      packages.add(new OrientationPackage());
+      return packages;
+    }
+    
+  @Override
+   public void onConfigurationChanged(Configuration newConfig) {
+       super.onConfigurationChanged(newConfig);
+       Intent intent = new Intent("onConfigurationChanged");
+       intent.putExtra("newConfig", newConfig);
+       this.sendBroadcast(intent);
+   }
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule

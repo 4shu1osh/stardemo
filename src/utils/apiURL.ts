@@ -7,5 +7,7 @@ const API_URL = {
     SPORTS: '/user/sports',
     ZIPCODE: '/zipcode-list',
     CHECK_USERNAME: '/user/check-username',
+    RECOMMENDED_PROFILES: '/user/recommended-profiles',
+    COMPLETE_PROFILE: '/user/complete-profile',
 }
 export default API_URL;

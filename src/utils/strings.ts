@@ -19,7 +19,8 @@ const STRINGS = {
     CANNOT_FETCH_DATA_DESC: 'Sorry, something went wrong!',
     SEARCH_ZIP_CODE: 'Search Zip Code',
     SEARCH: 'Search',
-
+    ATHLETE_RECOMMENDATION_HEADING: 'Some of the most followed Athletes',
+    SEARCH_ATHLETE: 'Search Athletes',
   },
   LABEL: {
     SIGN_IN: 'Sign In',
@@ -43,6 +44,8 @@ const STRINGS = {
     FAN: 'Fan',
     ATHLETE: 'Athlete',
     ADD_MORE: '+ Add More',
+    FOLLOW: 'Follow',
+    FOLLOWING: 'Following',
   },
 
   ERROR_MSG: {
