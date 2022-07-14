@@ -2,68 +2,60 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
   Platform,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import CustomTextInput from '../../../components/textInput';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import styles from './style';
 import {Formik} from 'formik';
-import TouchableImage from '../../../components/touchableImage';
+import FONTS from '../../../utils/fonts';
 import COLORS from '../../../utils/colors';
-import LOCAL_IMAGES from '../../../utils/localImages';
 import STRINGS from '../../../utils/strings';
-import validatioSchema from '../../../utils/validationSchema';
-import imagePickerFunction from '../../../utils/imagePicker';
 import DatePicker from 'react-native-date-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import FONTS from '../../../utils/fonts';
-import {useNavigation} from '@react-navigation/native';
 import ROUTE_NAMES from '../../../routes/routeNames';
-import SelectIdentity from '../../../components/modal/selectIdentity';
+import LOCAL_IMAGES from '../../../utils/localImages';
+import {useNavigation} from '@react-navigation/native';
 import getFirstName from '../../../utils/getFirstName';
+import CustomTextInput from '../../../components/textInput';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import imagePickerFunction from '../../../utils/imagePicker';
+import validatioSchema from '../../../utils/validationSchema';
+import {EnabledButton} from '../../../components/customButton';
+import TouchableImage from '../../../components/touchableImage';
 import {checkUserNameAction, recommendationAction} from './action';
-import { EnabledButton, DisabledButton } from '../../../components/customButton';
-
-const {width} = Dimensions.get('screen');
+import SelectIdentity from '../../../components/modal/selectIdentity';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const {COMMON, LABEL} = STRINGS;
 
-const  CompleteProfile = ({route}: any) => {
+const CompleteProfile = ({route}: any) => {
   const {name, authToken, _id, username} = useSelector(
     (store: any) => store.verificationReducer,
   );
-  const Store = useSelector((store: any) => store.verificationReducer);
-  const dispatch = useDispatch<any>();
+  const {selection} = route?.params;
 
-  console.log("route = ", route.params, Store)
+  const dispatch = useDispatch<any>();
 
   const userInitialInfo = {
     dob: '',
-    // username: changeToUsername(name),
-    zipcode: '',
+    zipcode: '',  
     bio: '',
     referralCode: '',
   };
 
-  const [coverImage, setCoverImage] = React.useState('');
-  const [profileImage, setProfileImage] = React.useState('');
-  const [date, setDate] = React.useState(new Date());
-  const [datePicker, setDatePicker] = React.useState(false);
+  const [zip, setZip] = React.useState('10001');
   const [sports, setSports] = React.useState({});
-  const [identity, setIdentity] = React.useState(route.params.iden);
-  const [identityModal, setIdentityModal] = React.useState(false);
-  const [zip, setZip] = React.useState('');
-  const [usernameSuggestions, setUsernameSuggestions] = React.useState([]);
+  const [date, setDate] = React.useState(new Date());
+  const [coverImage, setCoverImage] = React.useState('');
+  const [datePicker, setDatePicker] = React.useState(false);
+  const [identity, setIdentity] = React.useState(selection);
   const [user_name, setUser_name] = React.useState(username);
+  const [profileImage, setProfileImage] = React.useState('');
   const [userNameError, setUserNameError] = React.useState('');
-  const [userType, setUserType] = React.useState(
-    identity === LABEL.FAN ? 1 : 2
-  );
+  const [identityModal, setIdentityModal] = React.useState(false);
+  const [usernameSuggestions, setUsernameSuggestions] = React.useState([]);
 
   const navigation = useNavigation<any>();
 
@@ -85,7 +77,6 @@ const  CompleteProfile = ({route}: any) => {
   const getUsername = (list: any, err: string) => {
     setUsernameSuggestions(list);
     setUserNameError(err);
-    console.log('list errrrrrr====', userNameError);
   };
   const zipCallback = (res: any) => {
     setZip(res);
@@ -97,9 +88,6 @@ const  CompleteProfile = ({route}: any) => {
 
   const modalCallback = (identity: string) => {
     setIdentity(identity);
-    setUserType(
-      identity === LABEL.FAN ? 1 : 2
-    )
     setIdentityModal(false);
   };
 
@@ -108,30 +96,34 @@ const  CompleteProfile = ({route}: any) => {
   };
 
   React.useEffect(() => {
-    // dispatch(checkUserNameAction(authToken, getUsername, name, userId));
     setSports(sports);
   }, [sports]);
 
   const onChangeText = (text: string) => {
     setUser_name(text);
-    dispatch(checkUserNameAction(authToken, getUsername, text, userId));
-    console.log('>>>>>>>>list of names', usernameSuggestions);
+    dispatch(checkUserNameAction(authToken, getUsername, text, _id));
   };
 
   const recommendationCallback = (list: any) => {
-    navigation.navigate(ROUTE_NAMES.ATHLETE_RECOMMENDATION, {list, name, authToken, _id, username, zip, userType});
-}
+    navigation.navigate(ROUTE_NAMES.ATHLETE_RECOMMENDATION, {
+      list,
+      name,
+      authToken,
+      _id,
+      username,
+      zip,
+      userType: 1,
+    });
+  };
 
-  const onPressNext = ()=> {
+  const onPressNext = () => {
     dispatch(recommendationAction(authToken, recommendationCallback));
-  }
+  };
 
   const _renderItem = ({item}: any) => {
-    console.log('username => ', item);
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        // style={styles.usernameSuggestion}
         onPress={() => {
           setUser_name(item);
           setUsernameSuggestions([]);
@@ -189,7 +181,7 @@ const  CompleteProfile = ({route}: any) => {
                     value={user_name}
                     label={`${LABEL.CHANGE_USERNAME}*`}
                     onBlur={() => onChangeText(user_name)}
-                    onChangeText={(text:string) => setUser_name(text)}
+                    onChangeText={(text: string) => setUser_name(text)}
                     rightComponent={() => (
                       <Image
                         source={
@@ -240,7 +232,7 @@ const  CompleteProfile = ({route}: any) => {
                     />
                     {identity.length > 0 && (
                       <Text style={styles.fixedLabel}>
-                        {LABEL.SELECT_IDENTITY}
+                        {LABEL.SELECT_IDENTITY + '*'}
                       </Text>
                     )}
                   </TouchableOpacity>
@@ -264,7 +256,7 @@ const  CompleteProfile = ({route}: any) => {
                       style={styles.rightArrow}
                     />
                     {date.toLocaleDateString().length > 0 && (
-                      <Text style={styles.fixedLabel}>{LABEL.DOB}</Text>
+                      <Text style={styles.fixedLabel}>{LABEL.DOB + '*'}</Text>
                     )}
                   </TouchableOpacity>
 
@@ -281,7 +273,9 @@ const  CompleteProfile = ({route}: any) => {
                       {zip ? zip : LABEL.ZIPCODE}
                     </Text>
                     {zip.length > 0 && (
-                      <Text style={styles.fixedLabel}>{LABEL.ZIPCODE}</Text>
+                      <Text style={styles.fixedLabel}>
+                        {LABEL.ZIPCODE + '*'}
+                      </Text>
                     )}
                   </TouchableOpacity>
 
@@ -290,7 +284,7 @@ const  CompleteProfile = ({route}: any) => {
                     maxLength={250}
                     multiline={true}
                     style={[styles.input]}
-                    label={`${LABEL.BIO}*`}
+                    label={LABEL.BIO}
                     onBlur={handleBlur('bio')}
                     onChangeText={handleChange('bio')}
                     error={touched.bio && errors.bio}
@@ -303,7 +297,7 @@ const  CompleteProfile = ({route}: any) => {
                   />
                   <CustomTextInput
                     value={referralCode}
-                    label={`${LABEL.REFERAL_CODE}*`}
+                    label={LABEL.REFERAL_CODE}
                     onBlur={handleBlur('referralCode')}
                     onChangeText={handleChange('referralCode')}
                     error={touched.referralCode && errors.referralCode}
@@ -322,7 +316,12 @@ const  CompleteProfile = ({route}: any) => {
                     {Object.keys(sports)?.map((keyItem: string) => {
                       return (
                         <View style={styles.tile}>
-                          <Text style={styles.tileText}>{sports[keyItem]}</Text>
+                          <Text style={styles.tileText}>
+                            {
+                              //@ts-ignore
+                              sports[keyItem]
+                            }
+                          </Text>
                           <TouchableImage
                             source={LOCAL_IMAGES.CROSS}
                             style={{
@@ -351,9 +350,10 @@ const  CompleteProfile = ({route}: any) => {
                       </React.Fragment>
                     )}
                   </View>
-                      <EnabledButton label={LABEL.NEXT.toUpperCase()}
-                      onPress={onPressNext}
-                      />
+                  <EnabledButton
+                    label={LABEL.NEXT.toUpperCase()}
+                    onPress={onPressNext}
+                  />
                 </React.Fragment>
               );
             }}
@@ -380,205 +380,3 @@ const  CompleteProfile = ({route}: any) => {
 };
 
 export default CompleteProfile;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
-  heading: {
-    color: COLORS.WHITE,
-    fontSize: 28,
-    fontWeight: '900',
-    fontStyle: 'italic',
-    lineHeight: 40,
-    letterSpacing: 1,
-  },
-
-  headerView: {
-    backgroundColor: COLORS.BLACK,
-    paddingHorizontal: 20,
-    marginTop: 10,
-  },
-  icon: {
-    height: 20,
-    width: 20,
-    resizeMode: 'contain',
-    alignSelf: 'flex-end',
-    right: 20,
-    bottom: 45,
-  },
-  rightArrow: {
-    height: 20,
-    width: 20,
-    resizeMode: 'contain',
-    position: 'absolute',
-    top: 18,
-    right: 15,
-  },
-  coverImgBg: {
-    backgroundColor: COLORS.DARKER_GREY,
-    height: 180,
-    width: '100%',
-    borderWidth: 2,
-    borderColor: COLORS.GREY,
-    borderRadius: 5,
-  },
-  profileImgBg: {
-    backgroundColor: COLORS.DARKER_GREY,
-    height: 88,
-    width: 88,
-    borderWidth: 2,
-    borderColor: COLORS.GREY,
-    borderRadius: 5,
-    position: 'absolute',
-    left: 43,
-    top: 165,
-  },
-  coverImg: {
-    height: 180,
-    width: '100%',
-    borderWidth: 2,
-    borderColor: COLORS.WHITE,
-    borderRadius: 5,
-  },
-  profileImg: {
-    height: 88,
-    width: 88,
-    borderWidth: 2,
-    borderColor: COLORS.WHITE,
-    borderRadius: 5,
-    position: 'absolute',
-    top: 165,
-    left: 43,
-  },
-  cover: {
-    height: 180,
-    width: '100%',
-    marginBottom: 64,
-    marginTop: 32,
-  },
-  profile: {
-    height: 88,
-    width: 88,
-    position: 'absolute',
-  },
-  camera: {
-    height: 20,
-    width: 20,
-    resizeMode: 'contain',
-    position: 'absolute',
-    top: 80,
-    alignSelf: 'center',
-    opacity: 0.6,
-    zIndex: 1,
-  },
-  cameraProfile: {
-    left: 78,
-    top: 200,
-  },
-  input: {
-    width: width * 0.89,
-    marginVertical: 7,
-    justifyContent: 'center',
-  },
-  text: {
-    fontFamily: FONTS.HELVETICA,
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.WHITE,
-    marginLeft: 16,
-  },
-  emptyComponent: {
-    height: 20,
-    width: 60,
-    resizeMode: 'contain',
-    alignSelf: 'flex-end',
-    bottom: 28,
-    left: 8,
-  },
-  charLength: {
-    color: COLORS.GREY,
-    fontSize: 12,
-  },
-  tile: {
-    height: 30,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    backgroundColor: COLORS.DARK_GREY,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 10,
-    flexDirection: 'row',
-  },
-  tileText: {
-    color: COLORS.WHITE,
-    fontSize: 12,
-    fontWeight: '900',
-  },
-  sportsList: {
-    borderWidth: 2,
-    borderColor: COLORS.WHITE,
-    borderRadius: 5,
-    width: width * 0.89,
-    padding: 10,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginVertical: 10,
-    paddingVertical: 16,
-  },
-  identityView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10,
-    height: 60,
-    width: width * 0.89,
-    borderWidth: 2,
-    borderColor: COLORS.WHITE,
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 26,
-  },
-  sportsListText: {
-    color: COLORS.WHITE,
-    fontSize: 16,
-    backgroundColor: COLORS.BLACK,
-    fontWeight: '600',
-    width: width * 0.79,
-  },
-  addMore: {
-    color: COLORS.BLUE,
-    fontSize: 14,
-    fontStyle: 'italic',
-    fontWeight: '900',
-    alignSelf: 'center',
-  },
-  fixedLabel: {
-    color: COLORS.WHITE,
-    fontSize: 12,
-    position: 'absolute',
-    backgroundColor: COLORS.BLACK,
-    paddingHorizontal: 6,
-    paddingVertical: 4,
-    top: -12,
-    left: 10,
-  },
-  usernameSuggestionText: {
-    color: COLORS.WHITE,
-    fontSize: 15,
-    fontFamily: FONTS.HELVETICA,
-    letterSpacing: 0.6,
-  },
-  errText: {
-    color: COLORS.RED,
-    fontSize: 12,
-    fontFamily: FONTS.HELVETICA,
-    top: -18,
-  },
-  usernameSuggestionView: {
-    flexDirection: 'row',
-    top: -6,
-  },
-});

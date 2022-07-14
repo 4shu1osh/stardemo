@@ -1,16 +1,18 @@
-import {ImageBackground, StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
+import styles from './style';
 import {Modal} from 'react-native-paper';
+import STRINGS from '../../utils/strings';
+import {EnabledButton} from '../customButton';
 import LOCAL_IMAGES from '../../utils/localImages';
-import styles from './style'
-import { EnabledButton } from '../customButton';
+import {ImageBackground, Text, View, Image} from 'react-native';
 
 const CustomModal = (props: any) => {
   const {visibleValue, buttonLabel, callbackFn} = props;
+
   const [visible, setVisible] = React.useState(visibleValue);
 
   const hideModal = () => setVisible(false);
-  console.log("caem ---here")
+
   return (
     <Modal
       visible={visible}
@@ -19,16 +21,11 @@ const CustomModal = (props: any) => {
       <ImageBackground
         source={LOCAL_IMAGES.MODAL_RECTANGLE}
         style={styles.rectangle}>
-        <Image
-          source={LOCAL_IMAGES.LIKE}
-          style={styles.icon}
-        />
+        <Image source={LOCAL_IMAGES.LIKE} style={styles.icon} />
         <Text style={[styles.text, {fontSize: 18, fontWeight: '900'}]}>
-          {'Congratulations'}
+          {STRINGS.COMMON.CONGRATULATIONS}
         </Text>
-        <Text style={styles.text}>
-          {'Your account has been successfully\nregistered'}
-        </Text>
+        <Text style={styles.text}>{STRINGS.COMMON.YOU_ARE_REGISTERED}</Text>
         <View style={styles.buttonView}>
           <EnabledButton
             label={buttonLabel.toUpperCase()}
@@ -41,4 +38,3 @@ const CustomModal = (props: any) => {
 };
 
 export default CustomModal;
-

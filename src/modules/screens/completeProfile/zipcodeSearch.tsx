@@ -1,35 +1,32 @@
 import {
   View,
   Text,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-  StyleSheet,
   Image,
+  FlatList,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
+import {zipCodeAction} from './action';
 import COLORS from '../../../utils/colors';
-import LOCAL_IMAGES from '../../../utils/localImages';
 import STRINGS from '../../../utils/strings';
-import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import ROUTE_NAMES from '../../../routes/routeNames';
+import LOCAL_IMAGES from '../../../utils/localImages';
 import SearchBar from '../../../components/searchBar';
-import {zipCodeAction} from './action';
+import {useNavigation} from '@react-navigation/native';
 import ListEmptyComponent from '../../../components/listEmptyComponent';
-import NoDataComponent from '../../../components/noDataComponent';
 
 const {COMMON} = STRINGS;
 
 export default function ZipcodeSearch({route}: any) {
   const {zipCallback} = route.params;
 
+  const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState([]);
   const [searchText, setSearchText] = React.useState('');
-  const [selectedZip, setSelectedZip] = React.useState('');
   const [zipCodeList, setZipCodeList] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [page, setPage] = React.useState(1);
 
   const navigation = useNavigation<any>();
 
@@ -37,6 +34,7 @@ export default function ZipcodeSearch({route}: any) {
   const {authToken} = useSelector((store: any) => store.verificationReducer);
 
   const getZipCode = (response: any) => {
+    //@ts-ignore
     setData([...data, ...response]);
     setZipCodeList(response);
   };
@@ -50,24 +48,20 @@ export default function ZipcodeSearch({route}: any) {
     );
   };
   const onEndReached = () => {
-    setIsLoading(true);
     setPage(page + 1);
     dispatch(zipCodeAction(authToken, getZipCode, page, searchText));
-    setIsLoading(false);
   };
 
-//   React.useEffect(() => {}, [zipCodeList]);
-
   React.useEffect(() => {
-    setData([])
-    searchText.length > 0 && dispatch(zipCodeAction(authToken, getZipCode, page, searchText));
+    setData([]);
+    searchText.length > 0 &&
+      dispatch(zipCodeAction(authToken, getZipCode, page, searchText));
   }, [searchText]);
 
   const _renderItem = ({item}: any) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          setSelectedZip(item?.zipcode);
           zipCallback(item?.zipcode);
           navigation.goBack();
         }}
@@ -81,7 +75,7 @@ export default function ZipcodeSearch({route}: any) {
 
   const ItemSeparatorComponent = () => {
     return <View style={styles.itemSeparator} />;
-    }
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
@@ -117,48 +111,47 @@ export default function ZipcodeSearch({route}: any) {
 
 const styles = StyleSheet.create({
   backButton: {
-    height: 20,
     width: 20,
-    resizeMode: 'contain',
+    height: 20,
     marginBottom: 20,
+    resizeMode: 'contain',
   },
   container: {
     flex: 1,
     backgroundColor: COLORS.BLACK,
-    //   justifyContent: 'space-between',
   },
   headerView: {
-    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
+    backgroundColor: COLORS.BLACK,
   },
   heading: {
-    color: COLORS.WHITE,
     fontSize: 28,
-    fontWeight: '900',
-    fontStyle: 'italic',
     marginBottom: 10,
     letterSpacing: 1,
+    fontWeight: '900',
+    fontStyle: 'italic',
+    color: COLORS.WHITE,
   },
   itemContainer: {
-    backgroundColor: COLORS.BLACK,
     paddingVertical: 16,
     alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
     alignSelf: 'flex-start',
+    justifyContent: 'center',
+    backgroundColor: COLORS.BLACK,
   },
   itemText: {
-    color: COLORS.WHITE,
     fontSize: 16,
     marginLeft: 30,
+    color: COLORS.WHITE,
   },
   listContainer: {
     paddingVertical: 10,
   },
-    itemSeparator: {
-        height: 1,
-        width: '100%',
-        backgroundColor: COLORS.DARK_GREY,
-        marginVertical: 10,
-    },
+  itemSeparator: {
+    height: 1,
+    width: '100%',
+    marginVertical: 10,
+    backgroundColor: COLORS.DARK_GREY,
+  },
 });

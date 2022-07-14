@@ -8,18 +8,17 @@ import {
   FlatList,
 } from 'react-native';
 import React from 'react';
+import {sportsAction} from './action';
+import FONTS from '../../../utils/fonts';
 import COLORS from '../../../utils/colors';
-import ROUTE_NAMES from '../../../routes/routeNames';
+import STRINGS from '../../../utils/strings';
+import {useDispatch, useSelector} from 'react-redux';
+import SearchBar from '../../../components/searchBar';
 import LOCAL_IMAGES from '../../../utils/localImages';
 import {useNavigation} from '@react-navigation/native';
-import STRINGS from '../../../utils/strings';
-import {DisabledButton, EnabledButton} from '../../../components/customButton';
-import {useDispatch, useSelector} from 'react-redux';
-import FONTS from '../../../utils/fonts';
-import SearchBar from '../../../components/searchBar';
-import {sportsAction} from './action';
-import ListEmptyComponent from '../../../components/listEmptyComponent';
 import NoDataComponent from '../../../components/noDataComponent';
+import ListEmptyComponent from '../../../components/listEmptyComponent';
+import {DisabledButton, EnabledButton} from '../../../components/customButton';
 
 const {COMMON, LABEL} = STRINGS;
 
@@ -105,7 +104,7 @@ export default function SelectSports({route}: any) {
       <View style={styles.container}>
         <View style={styles.headerView}>
           <TouchableOpacity
-            onPress={() => navigation.navigate(ROUTE_NAMES.COMPLETE_PROFILE)}>
+            onPress={() => navigation.goBack()}>
             <Image
               source={LOCAL_IMAGES.BACK_BUTTON}
               style={styles.backButton}
@@ -133,7 +132,7 @@ export default function SelectSports({route}: any) {
               label={LABEL.SUBMIT.toUpperCase()}
               onPress={() => {
                 callbackFn(selectedSports);
-                navigation.navigate(ROUTE_NAMES.COMPLETE_PROFILE);
+                navigation.goBack();
               }}
             />
           ) : (

@@ -1,26 +1,24 @@
-import {UserCreds} from '../../../utils/types';
 import axios from 'axios';
 import API_URL from '../../../utils/apiURL';
 import STRINGS from '../../../utils/strings';
-import {AnyAction, Dispatch} from 'redux';
 
-function signUpAction(USER: UserCreds) {
+function signUpAction(USER: any, calbackFn: any) {
   const {name, email, password, phoneNo} = USER;
-  return (dispatch: Dispatch<AnyAction>) => {
+  return (dispatch: (arg0: {type: string; payload: any}) => void) => {
     axios
       .post(`${API_URL.BASE_URL + API_URL.SIGNUP}`, {
         name,
         email,
         password,
-        countryCode: "+1",
+        countryCode: '+1',
         phoneNo,
       })
       .then(response => {
-        console.log(response.data.data);
         dispatch({
           type: STRINGS.ACTION_TYPE.SIGN_UP,
           payload: response.data.data,
         });
+      calbackFn(true);
       })
       .catch(error => {
         console.log(error);

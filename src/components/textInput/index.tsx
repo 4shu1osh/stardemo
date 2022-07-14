@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './style';
+import COLORS from '../../utils/colors';
 import {TextInput, Text} from 'react-native-paper';
-import COLORS from '../../utils/colors'
 
 export default function CustomTextInput(props: any) {
   let {rightComponent, error, style} = props;
@@ -10,19 +10,19 @@ export default function CustomTextInput(props: any) {
       <TextInput
         {...props}
         mode="outlined"
-        placeholderTextColor={COLORS.WHITE}
-        autoCapitalize="none"
         autoComplete="off"
+        autoCapitalize="none"
         autoCorrect={false}
+        placeholderTextColor={COLORS.WHITE}
         theme={{
           dark: true,
           colors: {
             text: COLORS.BLUE,
             primary: COLORS.WHITE,
-            placeholder:COLORS.WHITE,
-            background:COLORS.BLACK,
+            placeholder: COLORS.WHITE,
+            background: COLORS.BLACK,
             error: COLORS.WHITE,
-          }
+          },
         }}
         style={[styles.input, style]}
       />

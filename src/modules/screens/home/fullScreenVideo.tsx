@@ -1,65 +1,50 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
-  Animated,
-} from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
 import Video from 'react-native-video';
-import VIDEOS from '../../../utils/videos';
-import COLORS from '../../../utils/colors';
 import {vh, vw} from '../../../utils/dimensions';
 import LOCAL_IMAGES from '../../../utils/localImages';
-import TouchableImage from '../../../components/touchableImage';
-import VideoPlayer from 'react-native-video-controls';
+import {useNavigation} from '@react-navigation/native';
 import Orientation from 'react-native-orientation-locker';
-import ROUTE_NAMES from '../../../routes/routeNames';
+import TouchableImage from '../../../components/touchableImage';
+import {View, StyleSheet, Dimensions, Image} from 'react-native';
 
-const {width, height} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 export default function FullScreeVideo({route}: any) {
   const [play, setPlay] = useState(true);
-  var [page, setPage] = useState(1);
-  let playerRef: any = React.useRef(null);
 
-    const navigation = useNavigation<any>();
+  const  {callbackFn} = route.params;
 
-  //lock orientation to landscape in useEffect
   React.useEffect(() => {
     Orientation.lockToLandscape();
+    setPlay(play)
   }, []);
 
-  //pause video when navigating away from screen
-    React.useEffect(() => {
-        navigation.addListener('blur', () => {
-            setPlay(false);
-        }
-        );
-    }, [navigation]);
+  const navigation = useNavigation<any>();
 
-  console.log('video======', route.params.video);
+  React.useEffect(() => {
+    Orientation.lockToLandscape();
+  }, [navigation]);
+
+
+
+  let playerRef: any = React.useRef(null);
+  
 
   return (
     <View
-    //   source={require('../../../assets/images/bg.jpeg')}
       style={{
-        height: vw(width),
-        width: vh(736),
+        height: vh(height),
+        width: vw(width),
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: 'black',
       }}>
       <Image source={LOCAL_IMAGES.MAIN_LOGO} style={styles.logo} />
-      <Video
+        <Video
         source={{
           uri: route.params.video,
         }}
-        style={{width: '150%', height: '100%'}}
+        style={{width: '100%', height: '100%'}}
         controls={false}
         ref={(ref: any) => {
           playerRef = ref;
@@ -68,7 +53,7 @@ export default function FullScreeVideo({route}: any) {
         paused={!play}
         oggleResizeModeOnFullscreen={false}
         repeat={true}
-        resizeMode={'cover'}
+        resizeMode={'contain'}
       />
 
       <View style={styles.backButtonContainer}>
@@ -76,16 +61,16 @@ export default function FullScreeVideo({route}: any) {
           source={LOCAL_IMAGES.BACK_BUTTON}
           style={styles.backButton}
           onPress={() => {
-            setTimeout(() => {
-            setPlay(false);
-            Orientation.lockToPortrait();
-            navigation.navigate(ROUTE_NAMES.HOME);
-            }, 0);
-            }
-            }
+              callbackFn(true)
+              setPlay(false);
+              Orientation.lockToPortrait();
+              setTimeout(() => {
+                navigation.goBack();
+              }, 1000);
+              
+          }}
         />
       </View>
-
       <View style={styles.buttonContainer}>
         <TouchableImage source={LOCAL_IMAGES.SHARE} style={styles.button} />
         <TouchableImage source={LOCAL_IMAGES.SAVE} style={styles.button} />
@@ -99,46 +84,44 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    position: 'absolute',
+    top: vh(80),
+    right: vw(-60),
     height: vh(200),
+    position: 'absolute',
     alignSelf: 'flex-end',
     justifyContent: 'space-between',
-    top: vh(80),
-    right: vw(-60)
   },
   button: {
-    height: vh(70),
     width: vw(70),
+    height: vh(70),
     resizeMode: 'contain',
+    right: 120
   },
   button1: {
-    height: vh(40),
-    width: vw(40),
-    resizeMode: 'contain',
-    position: 'absolute',
-    bottom: vh(40),
     left: vw(-20),
+    width: vw(40),
+    bottom: vh(40),
+    height: vh(40),
+    position: 'absolute',
+    resizeMode: 'contain',
   },
   logo: {
-    height: vh(100),
-    width: vw(100),
-    resizeMode: 'contain',
-    position: 'absolute',
     top: vh(40),
+    width: vw(100),
+    height: vh(100),
     alignSelf: 'center',
+    position: 'absolute',
+    resizeMode: 'contain',
   },
   backButton: {
-    height: vh(20),
     width: vw(20),
+    height: vh(20),
     resizeMode: 'contain',
-    shadowColor: COLORS.BLACK,
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.5,
   },
   backButtonContainer: {
-    position: 'absolute',
     top: vh(30),
     left: vw(30),
+    position: 'absolute',
     alignSelf: 'flex-start',
   },
 });

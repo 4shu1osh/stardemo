@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native';
-import COLORS from '../../utils/colors';
 import FONTS from '../../utils/fonts';
-import LOCAL_IMAGES from '../../utils/localImages';
+import COLORS from '../../utils/colors';
 import STRINGS from '../../utils/strings';
+import LOCAL_IMAGES from '../../utils/localImages';
+import {View, Image, Text, StyleSheet} from 'react-native';
 
 const {COMMON} = STRINGS;
 
@@ -27,27 +27,27 @@ const styles = StyleSheet.create({
   heading: {
     color: COLORS.WHITE,
     fontSize: 28,
-    fontWeight: '900',
-    fontStyle: 'italic',
     marginBottom: 10,
     letterSpacing: 1,
+    fontWeight: '900',
+    fontStyle: 'italic',
   },
   emptyImage: {
-    height: 100,
     width: 100,
-    resizeMode: 'contain',
+    height: 100,
     marginBottom: 20,
     marginHorizontal: 10,
+    resizeMode: 'contain',
   },
   emptyText: {
-    color: COLORS.GREY,
     fontSize: 14,
-    fontFamily: FONTS.HELVETICA,
+    color: COLORS.GREY,
     textAlign: 'center',
+    fontFamily: FONTS.HELVETICA,
   },
   emptyContainer: {
+    top: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    top: 100,
   },
 });

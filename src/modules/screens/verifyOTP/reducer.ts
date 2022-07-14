@@ -12,7 +12,6 @@ const verificationReducer = (state = initialState, action: any) => {
   const {type, payload} = action;
   switch (type) {
     case ACTION_TYPE.VERIFICATION_SUCCESS:
-        console.log("payload",payload);
       return {...payload};
     default:
       return {state};

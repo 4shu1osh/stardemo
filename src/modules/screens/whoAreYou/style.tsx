@@ -1,77 +1,70 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../../utils/colors';
-import FONTS from '../../../utils/fonts';
 
 const styles = StyleSheet.create({
   backButton: {
-    height: 20,
     width: 20,
-    resizeMode: 'contain',
+    height: 20,
     marginBottom: 20,
+    resizeMode: 'contain',
   },
   container: {
     flex: 1,
-    backgroundColor: COLORS.BLACK,
     padding: 20,
-    alignItems: 'center'
-
+    alignItems: 'center',
+    backgroundColor: COLORS.BLACK,
   },
   headerView: {
-    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
+    backgroundColor: COLORS.BLACK,
   },
   heading: {
-    color: COLORS.WHITE,
     fontSize: 28,
+    letterSpacing: 1,
+    marginBottom: 10,
     fontWeight: '900',
     fontStyle: 'italic',
-    marginBottom: 10,
-    letterSpacing: 1
+    color: COLORS.WHITE,
   },
   banner: {
-      height: 106,
-      width: 329,
-      resizeMode: 'contain',
-      marginBottom: 60,
-
+    width: 329,
+    height: 106,
+    marginBottom: 60,
+    resizeMode: 'contain',
   },
   bannerView: {
-
-    height: 106,
     width: 329,
-      marginBottom: 40,
-      alignItems: 'center',
-
-
+    height: 106,
+    marginBottom: 40,
+    alignItems: 'center',
   },
-  selectedBanner:{
+  selectedBanner: {
     height: 112,
-    paddingHorizontal: 2,
-    borderColor: COLORS.BLUE,
+    borderWidth: 1,
+    marginBottom: 30,
     borderRadius: 10,
     paddingVertical: 2,
-    marginBottom: 30,
+    paddingHorizontal: 2,
     alignItems: 'center',
-    borderWidth: 1,
-
+    borderColor: COLORS.BLUE,
   },
   check: {
-      height: 20,
-      width: 20,
-      position: 'absolute',
-        resizeMode: 'contain',
-        bottom: 80,
-        right: 12
+    right: 12,
+    width: 20,
+    height: 20,
+    bottom: 80,
+    resizeMode: 'contain',
+    position: 'absolute',
   },
   bannerText: {
-    color: COLORS.WHITE,
+    top: 40,
+    right: 90,
     fontSize: 26,
     fontWeight: '900',
     fontStyle: 'italic',
+    color: COLORS.WHITE,
     position: 'absolute',
-    top: 40,
-    right: 90,
-  }
+  },
 });
 
 export default styles;

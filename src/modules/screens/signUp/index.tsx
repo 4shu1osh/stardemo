@@ -1,19 +1,19 @@
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import CustomTextInput from '../../../components/textInput';
 import styles from './style';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {Formik} from 'formik';
-import TouchableImage from '../../../components/touchableImage';
-import COLORS from '../../../utils/colors';
-import CheckBox from '@react-native-community/checkbox';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
 import signUpAction from './action';
-import LOCAL_IMAGES from '../../../utils/localImages';
-import ROUTE_NAMES from '../../../routes/routeNames';
+import {useDispatch} from 'react-redux';
+import COLORS from '../../../utils/colors';
 import STRINGS from '../../../utils/strings';
+import ROUTE_NAMES from '../../../routes/routeNames';
+import LOCAL_IMAGES from '../../../utils/localImages';
+import {useNavigation} from '@react-navigation/native';
+import CheckBox from '@react-native-community/checkbox';
+import CustomTextInput from '../../../components/textInput';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import validatioSchema from '../../../utils/validationSchema';
+import TouchableImage from '../../../components/touchableImage';
+import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
 import {EnabledButton, DisabledButton} from '../../../components/customButton';
 
 const {COMMON, LABEL} = STRINGS;
@@ -25,10 +25,11 @@ const userInitialInfo = {
   phoneNo: '',
 };
 export default function SignUp() {
+  let phNo : any;
+
   const navigation = useNavigation<any>();
 
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch<any>();
   const [hidePass, setHidePass] = React.useState(true);
   const [isSelected, setSelection] = React.useState(false);
 
@@ -40,6 +41,14 @@ export default function SignUp() {
     />
   );
 
+  const onPressCreateAccount = (values: any) => {
+    phNo = values.phoneNo
+    dispatch(signUpAction(values, callbackFn));
+  }
+
+  const callbackFn = (val: boolean) => {
+    navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN, {phNo});
+  }
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>
       <View style={styles.headerView}>
@@ -122,10 +131,7 @@ export default function SignUp() {
                     />
                   ) : (
                     <EnabledButton
-                      onPress={() => {
-                        dispatch<any>(signUpAction(values));
-                        navigation.navigate(ROUTE_NAMES.VERIFY_OTP_SCREEN);
-                      }}
+                      onPress={() => onPressCreateAccount(values)}
                       label={COMMON.CREATE_ACCOUNT.toUpperCase()}
                     />
                   )}

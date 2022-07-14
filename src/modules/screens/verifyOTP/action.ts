@@ -1,6 +1,7 @@
 import axios from 'axios';
 import API_URL from '../../../utils/apiURL';
 import {AnyAction, Dispatch} from 'redux';
+import STRINGS from '../../../utils/strings';
 
 
 export default function verification(
@@ -22,9 +23,8 @@ return async(dispatch: Dispatch<AnyAction>) => {
   try {
     const response = await axios.post(`${API_URL.BASE_URL}${API_URL.VERIFY_OTP}`, data);
     if (response.status === 200) {
-      console.log(response.data.data);
       dispatch({
-        type: 'VERIFICATION_SUCCESS',
+        type: STRINGS.ACTION_TYPE.VERIFICATION_SUCCESS,
         payload: response.data.data,
       });
       callbackFn(true)

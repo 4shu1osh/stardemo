@@ -1,12 +1,12 @@
+import COLORS from '../../utils/colors';
 const {width} = Dimensions.get('screen');
 import {StyleSheet, Dimensions} from 'react-native';
-import COLORS from '../../utils/colors';
 
 const styles = StyleSheet.create({
   button: {
     height: 48,
-    borderRadius: 6,
     marginTop: 36,
+    borderRadius: 6,
     marginBottom: 36,
     width: width * 0.9,
     alignItems: 'center',
@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    fontStyle: 'italic',
     fontWeight: '900',
+    fontStyle: 'italic',
     color: COLORS.BLACK,
   },
 });

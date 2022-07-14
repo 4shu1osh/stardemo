@@ -1,36 +1,38 @@
 import {
-  View,
   Text,
-  TextInput,
+  View,
   Image,
-  TouchableOpacity,
+  TextInput,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useRef, useEffect, useState} from 'react';
 import styles from './style';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import verification from './action';
 import COLORS from '../../../utils/colors';
-import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
-import returnTimerValue from '../../../utils/timeInterval';
+import STRINGS from '../../../utils/strings';
 import CustomModal from '../../../components/modal';
 import ROUTE_NAMES from '../../../routes/routeNames';
+import {useSelector, useDispatch} from 'react-redux';
 import LOCAL_IMAGES from '../../../utils/localImages';
-import STRINGS from '../../../utils/strings';
+import {useNavigation} from '@react-navigation/native';
+import React, {useRef, useEffect, useState} from 'react';
+import returnTimerValue from '../../../utils/timeInterval';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {EnabledButton, DisabledButton} from '../../../components/customButton';
-import verification from './action';
-import { AnyAction } from 'redux';
 
 const {COMMON, LABEL} = STRINGS;
 
-export default function VerifyOTP() {
+export default function VerifyOTP({route}: any) {
+
+  const {phNo} = route.params
+
   const pin1 = useRef<TextInput>(null);
   const pin2 = useRef<TextInput>(null);
   const pin3 = useRef<TextInput>(null);
   const pin4 = useRef<TextInput>(null);
 
   const navigation = useNavigation<any>();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
 
   const {userId, countryCode, phoneNo} = useSelector(
     (store: any) => store.signUpReducer,
@@ -50,18 +52,22 @@ export default function VerifyOTP() {
     return () => clearInterval(interval);
   }, []);
 
-  const callbackFn = (status:boolean) => {
-    setVisible(status)
-  }
+  const callbackFn = (status: boolean) => {
+    setVisible(status);
+  };
 
   const openModal = () => {
     return (
-      <CustomModal visibleValue={true} buttonLabel={STRINGS.LABEL.CONTINUE} callbackFn={()=> navigation.navigate(ROUTE_NAMES.WHO_ARE_YOU)} />
+      <CustomModal
+        visibleValue={true}
+        buttonLabel={STRINGS.LABEL.CONTINUE}
+        callbackFn={() => navigation.navigate(ROUTE_NAMES.WHO_ARE_YOU)}
+      />
     );
   };
 
   const checkOTP = () => {
-   dispatch<any>(verification(userId, otp, countryCode, phoneNo, callbackFn ))
+    dispatch(verification(userId, otp, countryCode, phoneNo, callbackFn));
   };
 
   return (
@@ -74,7 +80,7 @@ export default function VerifyOTP() {
 
         <Text style={styles.heading}>{COMMON.VERIFY_OTP_HEADING}</Text>
         <Text style={styles.info}>
-          {`${COMMON.ENTER_CODE} ${countryCode + phoneNo}  `}
+          {`${COMMON.ENTER_CODE} ${countryCode + phNo}  `}
           <Text
             onPress={() => navigation.navigate(ROUTE_NAMES.SIGN_UP_SCREEN)}
             style={styles.editButton}>

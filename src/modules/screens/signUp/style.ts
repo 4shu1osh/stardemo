@@ -1,34 +1,33 @@
-import {StyleSheet, Dimensions} from 'react-native';
-import COLORS from '../../../utils/colors';
 import FONTS from '../../../utils/fonts';
-
+import COLORS from '../../../utils/colors';
+import {StyleSheet, Dimensions} from 'react-native';
 
 const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
+    backgroundColor: COLORS.BLACK,
   },
   headerView: {
-    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
+    backgroundColor: COLORS.BLACK,
   },
   heading: {
-    color: COLORS.WHITE,
     fontSize: 28,
+    lineHeight: 40,
+    letterSpacing: 1,
     fontWeight: '900',
     fontStyle: 'italic',
-    lineHeight: 40,
-    letterSpacing: 1
+    color: COLORS.WHITE,
 
   },
   forgotPassword: {
-    color: COLORS.BLUE,
     fontSize: 16,
-    fontFamily: FONTS.HELVETICA,
+    color: COLORS.BLUE,
     alignSelf: 'flex-end',
+    fontFamily: FONTS.HELVETICA,
   },
   button: {
     height: 50,
@@ -40,25 +39,25 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    fontStyle: 'italic',
     fontWeight: '900',
     color: COLORS.GREY,
+    fontStyle: 'italic',
   },
   line: {
-    width: width * 0.4,
     height: 1,
+    width: width * 0.4,
     backgroundColor: COLORS.GREY,
   },
   or: {
-    color: COLORS.GREY,
     fontSize: 14,
+    color: COLORS.GREY,
     fontFamily: FONTS.HELVETICA,
   },
   rowView: {
+    marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
   },
   socialBtn: {
     height: 50,
@@ -67,44 +66,44 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   text: {
-    color: COLORS.WHITE,
     fontSize: 20,
     fontWeight: '500',
+    color: COLORS.WHITE,
     fontFamily: FONTS.HELVETICA,
   },
   eye: {
-    height: 50,
-    width: 20,
-    position: 'absolute',
     bottom: 8,
     right: 20,
+    width: 20,
+    height: 50,
+    position: 'absolute',
     resizeMode: 'contain',
   },
   signUpText: {
     fontSize: 14,
-    color: COLORS.WHITE,
     marginTop: 10,
     marginBottom: 20,
+    color: COLORS.WHITE,
   },
   checkboxContainer: {
-    flexDirection: 'row',
     marginTop: 30,
+    flexDirection: 'row',
     alignItems: 'center',
   },
   terms: {
     color: COLORS.WHITE,
   },
   checkBox: {
-    marginRight: 11,
-    marginLeft: 3,
     width: 18,
     height: 18,
+    marginLeft: 3,
+    marginRight: 11,
   },
   backButton: {
-    height: 20,
     width: 20,
-    resizeMode: 'contain',
+    height: 20,
     marginBottom: 20,
+    resizeMode: 'contain',
   },
 });
 export default styles;

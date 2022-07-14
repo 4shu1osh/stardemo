@@ -1,12 +1,11 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {},
   backgroundImg: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
     alignItems: 'center',
+    resizeMode: 'contain',
   },
   fiveLogo: {
     width: 300,
@@ -14,11 +13,11 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   starLogo: {
-    height: 76,
-    resizeMode: 'contain',
     top: 82,
     left: -87,
+    height: 76,
     position: 'absolute',
+    resizeMode: 'contain',
   },
 
   imgBorder: {

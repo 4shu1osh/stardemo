@@ -1,56 +1,56 @@
-import {StyleSheet, Dimensions} from 'react-native';
-import COLORS from '../../../utils/colors';
 import FONTS from '../../../utils/fonts';
+import COLORS from '../../../utils/colors';
+import {StyleSheet, Dimensions} from 'react-native';
 
 const {height} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
+    backgroundColor: COLORS.BLACK,
   },
   headerView: {
-    backgroundColor: COLORS.BLACK,
     paddingHorizontal: 20,
+    backgroundColor: COLORS.BLACK,
   },
   heading: {
-    color: COLORS.WHITE,
     fontSize: 28,
+    marginBottom: 10,
+    letterSpacing: 1,
     fontWeight: '900',
     fontStyle: 'italic',
-    marginBottom: 10,
-    letterSpacing: 1
+    color: COLORS.WHITE,
 
   },
 
   button: {
     height: 50,
     width: '100%',
-    borderRadius: 6,
     marginTop: 26,
+    borderRadius: 6,
     marginBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
   label: {
     fontSize: 18,
-    fontStyle: 'italic',
     fontWeight: '900',
+    fontStyle: 'italic',
     color: COLORS.BLACK,
   },
 
   text: {
-    color: COLORS.WHITE,
     fontSize: 20,
     fontWeight: '500',
+    color: COLORS.WHITE,
     fontFamily: FONTS.HELVETICA,
   },
 
   info: {
-    color: COLORS.WHITE,
     lineHeight: 20,
-    marginBottom: 10
+    marginBottom: 10,
+    color: COLORS.WHITE,
   },
 
   time: {
@@ -59,49 +59,49 @@ const styles = StyleSheet.create({
   },
 
   backButton: {
-    height: 20,
     width: 20,
-    resizeMode: 'contain',
+    height: 20,
     marginBottom: 20,
+    resizeMode: 'contain',
   },
   rowView: {
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
   timerView: {
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
   },
   colView: {
-    justifyContent: 'flex-start',
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   input: {
     width: 64,
     height: 48,
-    borderRadius: 6,
-    borderColor: COLORS.WHITE,
-    borderWidth: 1,
-    marginTop: 20,
-    color: COLORS.BLUE,
     fontSize: 24,
+    marginTop: 20,
+    borderWidth: 1,
+    borderRadius: 6,
     fontWeight: '900',
+    color: COLORS.BLUE,
     textAlign: 'center',
+    borderColor: COLORS.WHITE,
   },
   timer: {
-    height: 24,
     width: 24,
+    height: 24,
   },
   bmx: {
     resizeMode: 'contain',
     height: height / 2.5,
   },
   editButton: {
+    fontWeight: 'bold',
     color: COLORS.BLUE,
     textDecorationLine: 'underline',
-    fontWeight: 'bold',
   },
 });
 export default styles;

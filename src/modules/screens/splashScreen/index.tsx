@@ -1,9 +1,9 @@
-import {View, Text, Image, ImageBackground, Animated} from 'react-native';
-import React, {useEffect, useRef} from 'react';
 import styles from './style';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import React, {useEffect, useRef} from 'react';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import LOCAL_IMAGES from '../../../utils/localImages';
+import {View, Image, ImageBackground, Animated} from 'react-native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 
 export default function SplashScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
