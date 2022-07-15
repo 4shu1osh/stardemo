@@ -103,5 +103,14 @@ const styles = StyleSheet.create({
     color: COLORS.BLUE,
     textDecorationLine: 'underline',
   },
+  underlineStyleBase: {
+    width: 30,
+    height: 45,
+    borderWidth: 0,
+    borderBottomWidth: 1,
+  },
+  underlineStyleHighLighted: {
+    borderColor: COLORS.BLUE,
+  },
 });
 export default styles;

@@ -25,7 +25,7 @@ export default function Routes() {
         screenOptions={{
           headerShown: false,
         }}>
-        {/* <Stack.Screen
+        <Stack.Screen
           options={{
             gestureEnabled: false,
           }}
@@ -51,7 +51,7 @@ export default function Routes() {
         <Stack.Screen
           name={ROUTE_NAMES.VERIFY_OTP_SCREEN}
           component={VerifyOTP}
-        /> */}
+        />
 
         <Stack.Screen name={ROUTE_NAMES.BOTTOM_TABS} component={BottomTabs} />
         <Stack.Screen

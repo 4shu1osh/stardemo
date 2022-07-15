@@ -1,4 +1,5 @@
 import styles from './style';
+import { useSelector } from 'react-redux';
 import React, {useEffect, useRef} from 'react';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import LOCAL_IMAGES from '../../../utils/localImages';
@@ -6,7 +7,10 @@ import {View, Image, ImageBackground, Animated} from 'react-native';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 
 export default function SplashScreen() {
+ 
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const {authToken} = useSelector((store:any)=>store.verificationReducer)
+
 
   const navigation = useNavigation();
 
@@ -20,13 +24,21 @@ export default function SplashScreen() {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.dispatch(
+      if(authToken)
+      {navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{name: ROUTE_NAMES.BOTTOM_TABS}],
+        }),
+      );}
+      else
+      {navigation.dispatch(
         CommonActions.reset({
           index: 1,
           routes: [{name: ROUTE_NAMES.SIGN_UP_SCREEN}],
         }),
-      );
-    }, 3000);
+      );}
+    }, 2000);
   }, []);
 
   return (

@@ -6,15 +6,16 @@ const initialState = {
   userId: '',
   countryCode: '',
   phoneNo: '',
+  status: false
 };
 
 const verificationReducer = (state = initialState, action: any) => {
   const {type, payload} = action;
   switch (type) {
     case ACTION_TYPE.VERIFICATION_SUCCESS:
-      return {...payload};
+      return {...state, ...payload};
     default:
-      return {state};
+      return state;
   }
 };
 

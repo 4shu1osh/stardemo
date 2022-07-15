@@ -1,7 +1,17 @@
 import thunk from 'redux-thunk'
 import rootReducer from "./reducer";
-import { legacy_createStore as createStore, applyMiddleware} from 'redux'
+import { createLogger } from 'redux-logger';
+import { persistStore, persistReducer } from 'redux-persist'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { legacy_createStore as createStore, applyMiddleware, compose} from 'redux'
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const enhancer = compose(applyMiddleware(thunk, createLogger({})));
+const persistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+    whitelist: ['verificationReducer'],
+  }
+const  persistedReducer = persistReducer(persistConfig, rootReducer)
 
-export default store;
+export const store = createStore(persistedReducer, enhancer);
+export const persistor = persistStore(store)

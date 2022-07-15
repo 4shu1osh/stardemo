@@ -25,5 +25,8 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'contain',
   },
+  container: {
+    flex: 1
+  }
 });
 export default styles;

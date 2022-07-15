@@ -18,6 +18,7 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .trim()
     .min(8, ERROR_MSG.ENTER_VALID_PASSWORD)
+    .max(16,ERROR_MSG.ENTER_VALID_PASSWORD )
     .required(ERROR_MSG.PASSWORD_REQUIRED),
 });
 

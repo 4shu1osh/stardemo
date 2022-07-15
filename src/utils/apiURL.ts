@@ -3,6 +3,7 @@ const API_URL = {
   SIGNUP: '/user/signup',
   SPORTS: '/user/sports',
   ZIPCODE: '/zipcode-list',
+  CONTENT: '/user/contents',
   VERIFY_OTP: '/user/verify-otp',
   RESEND_OTP: '/user/resend-otp',
   CHECK_USERNAME: '/user/check-username',

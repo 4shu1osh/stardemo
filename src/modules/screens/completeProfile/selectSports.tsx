@@ -23,13 +23,17 @@ import {DisabledButton, EnabledButton} from '../../../components/customButton';
 const {COMMON, LABEL} = STRINGS;
 
 export default function SelectSports({route}: any) {
+
+  console.log("rendered")
   const {callbackFn, sports} = route.params;
 
   const dispatch: any = useDispatch();
 
-  const [selectedSports, setSelectedSports] = React.useState({...sports});
-  const [sportsList, setSportsList] = React.useState([]);
+  const [data, setData] = React.useState([]);
   const [searchText, setSearchText] = React.useState('');
+  const [sportsList, setSportsList] = React.useState([]);
+  const [selectedSports, setSelectedSports] = React.useState({...sports});
+
 
   const {authToken} = useSelector((store: any) => store.verificationReducer);
 
@@ -97,7 +101,6 @@ export default function SelectSports({route}: any) {
 
   const navigation = useNavigation<any>();
 
-  const [data, setData] = React.useState([]);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.BLACK}}>

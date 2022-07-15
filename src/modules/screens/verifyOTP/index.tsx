@@ -18,13 +18,13 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useRef, useEffect, useState} from 'react';
 import returnTimerValue from '../../../utils/timeInterval';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {EnabledButton, DisabledButton} from '../../../components/customButton';
 
 const {COMMON, LABEL} = STRINGS;
 
 export default function VerifyOTP({route}: any) {
-
-  const {phNo} = route.params
+  const {phNo} = route.params;
 
   const pin1 = useRef<TextInput>(null);
   const pin2 = useRef<TextInput>(null);
@@ -90,45 +90,17 @@ export default function VerifyOTP({route}: any) {
       </View>
 
       <View style={styles.container}>
-        <View style={styles.rowView}>
-          <TextInput
-            ref={pin1}
-            autoFocus={true}
-            onChangeText={text => {
-              setOtp(otp => otp + text);
-              pin2?.current?.focus();
-            }}
-            maxLength={1}
-            style={styles.input}
-          />
-          <TextInput
-            ref={pin2}
-            onChangeText={text => {
-              setOtp(otp => otp + text);
-              pin3?.current?.focus();
-            }}
-            maxLength={1}
-            style={styles.input}
-          />
-          <TextInput
-            ref={pin3}
-            onChangeText={text => {
-              setOtp(otp => otp + text);
-              pin4?.current?.focus();
-            }}
-            maxLength={1}
-            style={styles.input}
-          />
-          <TextInput
-            ref={pin4}
-            onChangeText={text => {
-              setOtp(otp => otp + text);
-              pin4?.current?.blur();
-            }}
-            maxLength={1}
-            style={styles.input}
-          />
-        </View>
+        <OTPInputView
+          pinCount={4}
+          autoFocusOnLoad={true}
+          keyboardType='number-pad'
+          style={styles.rowView}
+          codeInputFieldStyle={styles.input}
+          codeInputHighlightStyle={styles.underlineStyleHighLighted}
+          onCodeFilled={code => {
+            setOtp(code)
+          }}
+        />
 
         {otp.length == 4 ? (
           <EnabledButton

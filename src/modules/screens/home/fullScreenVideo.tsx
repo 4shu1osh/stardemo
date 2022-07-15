@@ -1,56 +1,45 @@
 import React, {useState} from 'react';
+//@ts-ignore
 import Video from 'react-native-video';
+import COLORS from '../../../utils/colors';
 import {vh, vw} from '../../../utils/dimensions';
 import LOCAL_IMAGES from '../../../utils/localImages';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Orientation from 'react-native-orientation-locker';
 import TouchableImage from '../../../components/touchableImage';
 import {View, StyleSheet, Dimensions, Image} from 'react-native';
 
+
 const {height, width} = Dimensions.get('window');
+console.log(height, width);
 
 export default function FullScreeVideo({route}: any) {
   const [play, setPlay] = useState(true);
 
-  const  {callbackFn} = route.params;
+  const {callbackFn, index} = route.params;
 
   React.useEffect(() => {
     Orientation.lockToLandscape();
-    setPlay(play)
   }, []);
 
   const navigation = useNavigation<any>();
-
-  React.useEffect(() => {
-    Orientation.lockToLandscape();
-  }, [navigation]);
-
-
-
+  const isFocused = useIsFocused()
   let playerRef: any = React.useRef(null);
-  
 
   return (
-    <View
-      style={{
-        height: vh(height),
-        width: vw(width),
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'black',
-      }}>
+    <View style={styles.container}>
       <Image source={LOCAL_IMAGES.MAIN_LOGO} style={styles.logo} />
-        <Video
+      <Video
         source={{
           uri: route.params.video,
         }}
-        style={{width: '100%', height: '100%'}}
+        style={styles.video}
         controls={false}
         ref={(ref: any) => {
           playerRef = ref;
         }}
         startOnLoad={true}
-        paused={!play}
+        paused={isFocused ? false : true}
         oggleResizeModeOnFullscreen={false}
         repeat={true}
         resizeMode={'contain'}
@@ -61,13 +50,10 @@ export default function FullScreeVideo({route}: any) {
           source={LOCAL_IMAGES.BACK_BUTTON}
           style={styles.backButton}
           onPress={() => {
-              callbackFn(true)
-              setPlay(false);
-              Orientation.lockToPortrait();
-              setTimeout(() => {
-                navigation.goBack();
-              }, 1000);
-              
+            Orientation.lockToPortrait();
+            callbackFn(index);
+            setPlay(false);
+            navigation.goBack();
           }}
         />
       </View>
@@ -82,6 +68,9 @@ export default function FullScreeVideo({route}: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.DARK_GREY,
   },
   buttonContainer: {
     top: vh(80),
@@ -92,10 +81,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
+    right: vw(100),
     width: vw(70),
     height: vh(70),
     resizeMode: 'contain',
-    right: 120
   },
   button1: {
     left: vw(-20),
@@ -123,5 +112,9 @@ const styles = StyleSheet.create({
     left: vw(30),
     position: 'absolute',
     alignSelf: 'flex-start',
+  },
+  video: {
+    width: '100%',
+    height: '100%',
   },
 });
