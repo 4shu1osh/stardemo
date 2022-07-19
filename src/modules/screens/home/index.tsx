@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import Video from 'react-native-video';
 import { contentAction } from './action';
 import COLORS from '../../../utils/colors';
+import STRINGS from '../../../utils/strings';
 import {vh, vw} from '../../../utils/dimensions';
 import ROUTE_NAMES from '../../../routes/routeNames';
 import LOCAL_IMAGES from '../../../utils/localImages';
@@ -12,9 +13,10 @@ import SwiperFlatList from 'react-native-swiper-flatlist';
 import TouchableImage from '../../../components/touchableImage';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import LinearGradientComponent from '../../../components/linearGradient';
-import {View, Image, StyleSheet, Dimensions, SafeAreaView} from 'react-native';
+import {Text, View, Image, StyleSheet, Dimensions, SafeAreaView} from 'react-native';
 
 
+const {LABEL} = STRINGS;
 const {width} = Dimensions.get('window');
 
 export default function Home() {
@@ -42,7 +44,9 @@ export default function Home() {
   const navigation = useNavigation<any>();
 
   const reelCallBack = (index: number) => {
-   listRef?.current?.scrollToIndex({index: index});
+   setTimeout(()=>{
+    listRef?.current?.scrollToIndex({index: index});
+   }, 500)
   }
 
   const contentCallBack = (list: any) => {
@@ -73,6 +77,7 @@ export default function Home() {
   };
 
   const renderItem = ({item, index}: any) => {
+    const {profileImage, name} = item?.userData
     return (
       <View style={[styles.renderView, {height: h, width: width}]}>
         <Image source={LOCAL_IMAGES.MAIN_LOGO} style={styles.logo} />
@@ -100,7 +105,12 @@ export default function Home() {
           <TouchableImage source={LOCAL_IMAGES.SAVE} style={styles.button} />
           <TouchableImage source={LOCAL_IMAGES.RATE} style={styles.button} />
         </View>
-        <LinearGradientComponent img={item?.userData?.profileImage} />
+        <View style={styles.footer}>
+        <LinearGradientComponent img={profileImage} />
+        <Text style={[styles.text, styles.nameStyle]} >{name}</Text>
+        <Text style={styles.text} >{"•"}</Text>
+        <Text style={styles.text} >{LABEL.FOLLOW}</Text>
+        </View>
       </View>
     );
   };
@@ -113,11 +123,12 @@ export default function Home() {
           data={content}
           windowSize={1}
           vertical={true}
+          pagingEnabled={true}
           initialNumToRender={0}
           renderItem={renderItem}
           scrollEventThrottle={h}
           maxToRenderPerBatch={1}
-          decelerationRate={'fast'}
+          decelerationRate={'normal'}
           removeClippedSubviews={true}
           keyExtractor={_keyExtractor}
           onChangeIndex={onChangeIndex}
@@ -177,4 +188,20 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  footer: {
+    left: -30,
+    height: 60,
+    width: 300,
+    marginBottom: 60,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  nameStyle: {
+    fontWeight: '900',
+  },
+  text: {
+    marginLeft: 10,
+    color: COLORS.WHITE,
+  }
 });

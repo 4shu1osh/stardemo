@@ -22,27 +22,24 @@ export default function LinearGradientComponent(img: any) {
 
 const styles = StyleSheet.create({
   gradient: {
-    height: 36,
     width: 36,
+    height: 36,
     borderRadius: 50,
-    position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    bottom: 10,
-    left: 16
   },
   imgContainer: {
-    height: 34,
     width: 34,
-    borderRadius: 50,
+    height: 34,
     padding: 5,
-    backgroundColor: COLORS.BLACK,
+    borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: COLORS.BLACK,
   },
   img1: {
-    height: 33,
     width: 33,
+    height: 33,
     borderRadius: 50,
   },
 });

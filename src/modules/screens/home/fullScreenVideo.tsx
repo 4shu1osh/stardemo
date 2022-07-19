@@ -11,7 +11,6 @@ import {View, StyleSheet, Dimensions, Image} from 'react-native';
 
 
 const {height, width} = Dimensions.get('window');
-console.log(height, width);
 
 export default function FullScreeVideo({route}: any) {
   const [play, setPlay] = useState(true);

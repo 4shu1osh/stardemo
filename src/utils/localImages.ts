@@ -36,6 +36,7 @@ const LOCAL_IMAGES = {
     FULLSCREEN: require('../assets/images/ic_FullScreen.png'),
     CURVED_ARROW: require('../assets/images/CurvedArrow.png'),
     MAIN_LOGO: require('../assets/images/MainLogo.png'),
+    SOUND: require('../assets/images/sound.png'),
 }
 
 export default LOCAL_IMAGES;

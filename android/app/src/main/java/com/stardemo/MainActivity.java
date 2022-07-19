@@ -9,16 +9,6 @@ import android.content.res.Configuration;
 import org.wonday.orientation.OrientationPackage;
   
 public class MainActivity extends ReactActivity {
-
-  @Override
-    protected List<ReactPackage> getPackages() {
-      @SuppressWarnings("UnnecessaryLocalVariable")
-      List<ReactPackage> packages = new PackageList(this).getPackages();
-      // Packages that cannot be autolinked yet can be added manually here, for example:
-      // packages.add(new MyReactNativePackage());
-      packages.add(new OrientationPackage());
-      return packages;
-    }
     
   @Override
    public void onConfigurationChanged(Configuration newConfig) {

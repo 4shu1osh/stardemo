@@ -93,7 +93,8 @@ export default function VerifyOTP({route}: any) {
         <OTPInputView
           pinCount={4}
           autoFocusOnLoad={true}
-          keyboardType='number-pad'
+          keyboardAppearance='dark'
+          keyboardType='phone-pad'
           style={styles.rowView}
           codeInputFieldStyle={styles.input}
           codeInputHighlightStyle={styles.underlineStyleHighLighted}
